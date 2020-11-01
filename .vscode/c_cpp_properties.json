@@ -1,0 +1,33 @@
+{
+  "configurations": [
+    {
+      "defines": [
+        "__GNUC__",
+        "__aarch64__",
+        "VERSION=\"1.0.0\"",
+        "ID=\"particletuner\""
+      ],
+      "includePath": [
+        "${workspaceFolder}/extern/libil2cpp/il2cpp/libil2cpp",
+        "${workspaceFolder}/extern/codegen/include",
+        "${env:ANDROID_NDK_HOME}/sources/cxx-stl/llvm-libc++/include",
+        "${env:ANDROID_NDK_HOME}/sysroot/usr/include",
+        "${env:ANDROID_NDK_HOME}/sources/cxx-stl/llvm-libc++abi/include",
+        "${workspaceFolder}/shared",
+        "${env:ANDROID_NDK_HOME}/sysroot/usr/include/arm-linux-androideabi",
+        "${workspaceFolder}/extern",
+        "${workspaceFolder}/extern/beatsaber-hook/shared",
+        "${workspaceFolder}/extern/questui/shared",
+        "${workspaceFolder}/extern/modloader/shared",
+        "${workspaceFolder}/include",
+        "${workspaceFolder}/shared",
+        "${workspaceFolder}"
+      ],
+      "name": "Quest Playground",
+      "cStandard": "c11",
+      "cppStandard": "c++20",
+      "intelliSenseMode": "clang-x64"
+    }
+  ],
+  "version": 4
+}

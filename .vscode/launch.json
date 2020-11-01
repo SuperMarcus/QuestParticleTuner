@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "NDK Remote Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/libs/arm64-v8a/libparticletuner_1_0_0.so",
+            "additionalSOLibSearchPath": "${workspaceRoot}/libs/arm64-v8a/",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "${env:ANDROID_NDK_HOME}/prebuilt/darwin-x86_64/bin/gdb",
+            "preLaunchTask": "NDK Build Script"
+        }
+    ]
+}

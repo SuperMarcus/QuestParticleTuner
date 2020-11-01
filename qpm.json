@@ -1,0 +1,39 @@
+{
+  "sharedDir": "shared",
+  "dependenciesDir": "extern",
+  "info": {
+    "name": "particletuner",
+    "id": "particletuner",
+    "version": "1.0.0",
+    "url": null,
+    "additionalData": {}
+  },
+  "dependencies": [
+    {
+      "id": "custom-types",
+      "versionRange": "^0.2.10",
+      "additionalData": {}
+    },
+    {
+      "id": "beatsaber-hook",
+      "versionRange": "^0.8.2",
+      "additionalData": {}
+    },
+    {
+      "id": "libil2cpp",
+      "versionRange": "^0.1.2",
+      "additionalData": {}
+    },
+    {
+      "id": "modloader",
+      "versionRange": "^1.0.4",
+      "additionalData": {}
+    },
+    {
+      "id": "questui",
+      "versionRange": "0.2.3",
+      "additionalData": {}
+    }
+  ],
+  "additionalData": {}
+}
