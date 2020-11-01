@@ -140,6 +140,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         rainbowParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
             rootLayout->get_rectTransform(),
             "Rainbow Particles",
+            currentConfig.rainbowParticles,
             rainbowToggleDelegate
         );
         QuestUI::BeatSaberUI::AddHoverHint(rainbowParticlesToggle->get_gameObject(), "Randomizes the color of particles!");
