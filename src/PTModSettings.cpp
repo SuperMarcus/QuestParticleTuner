@@ -135,7 +135,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             currentConfig.lifetimeMultiplier,
             lifetimeChangeDelegate
         );
-        QuestUI::BeatSaberUI::AddHoverHint(lifetimeMultInc->get_gameObject(), "Tune the lifetime of particles.");
+        QuestUI::BeatSaberUI::AddHoverHint(lifetimeMultInc->get_gameObject(), "Tune the lifetime of particles. Lifetime determines how long the particles stay on the screen.");
 
         rainbowParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
             rootLayout->get_rectTransform(),
