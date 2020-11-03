@@ -27,6 +27,7 @@ MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
 
     sparklesPS->get_main().set_maxParticles(INT_MAX);
     explosionPS->get_main().set_maxParticles(INT_MAX);
+    corePS->get_main().set_maxParticles(currentConfig.reduceCoreParticles ? 0 : INT_MAX);
 
     if (currentConfig.rainbowParticles) {
         auto randomColor = UnityEngine::Random::ColorHSV();

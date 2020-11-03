@@ -1,7 +1,7 @@
 {
   "id": "particletuner",
   "name": "ParticleTuner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "marcuszhou",
   "description": [
     "Boost or reduce note-cutting particle effects. PartialTuner is a port of the ParticleOverdrive mod from PC to the Quest."
@@ -17,10 +17,10 @@
     {
       "Type": "HookMod",
       "InstallAction": {
-        "InstallLibraryFile": "libparticletuner_1_0_0.so"
+        "InstallLibraryFile": "libparticletuner_1_0_1.so"
       },
       "UninstallAction": {
-        "RemoveLibraryFile": "libparticletuner_1_0_0.so"
+        "RemoveLibraryFile": "libparticletuner_1_0_1.so"
       }
     },
     {

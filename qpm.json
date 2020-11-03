@@ -4,14 +4,14 @@
   "info": {
     "name": "particletuner",
     "id": "particletuner",
-    "version": "1.0.0",
-    "url": null,
+    "version": "1.0.1",
+    "url": "https://github.com/SuperMarcus/QuestParticleTuner",
     "additionalData": {}
   },
   "dependencies": [
     {
-      "id": "custom-types",
-      "versionRange": "^0.2.10",
+      "id": "questui",
+      "versionRange": "0.2.3",
       "additionalData": {}
     },
     {
@@ -27,11 +27,6 @@
     {
       "id": "modloader",
       "versionRange": "^1.0.4",
-      "additionalData": {}
-    },
-    {
-      "id": "questui",
-      "versionRange": "0.2.3",
       "additionalData": {}
     }
   ],

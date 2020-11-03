@@ -47,7 +47,7 @@ LOCAL_CPP_FEATURES += exceptions
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := particletuner_1_0_0
+LOCAL_MODULE := particletuner_1_0_1
 LOCAL_SRC_FILES += $(call rwildcard,src/,*.cpp)
 LOCAL_SRC_FILES += $(call rwildcard,extern/beatsaber-hook/src/inline-hook/,*.cpp)
 LOCAL_SRC_FILES += $(call rwildcard,extern/beatsaber-hook/src/inline-hook/,*.c)
@@ -57,7 +57,7 @@ LOCAL_SHARED_LIBRARIES += custom-types
 LOCAL_SHARED_LIBRARIES += questui
 LOCAL_SHARED_LIBRARIES += codegen_0_3_5
 LOCAL_LDLIBS += -llog
-LOCAL_CFLAGS += -DVERSION='"1.0.0"' -DID='"particletuner"' -isystem 'extern/libil2cpp/il2cpp/libil2cpp' -I'./shared' -I './include' -I'./extern' -I'./extern/beatsaber-hook/shared' -I'./extern/modloader/shared' -I'./extern/questui/shared' -I'./extern/custom-types/shared' -I'./extern/codegen/include'
+LOCAL_CFLAGS += -DVERSION='"1.0.1"' -DID='"particletuner"' -isystem 'extern/libil2cpp/il2cpp/libil2cpp' -I'./shared' -I './include' -I'./extern' -I'./extern/beatsaber-hook/shared' -I'./extern/modloader/shared' -I'./extern/questui/shared' -I'./extern/custom-types/shared' -I'./extern/codegen/include'
 LOCAL_CPPFLAGS += -std=c++2a -frtti
 LOCAL_C_INCLUDES += ./include ./src
 LOCAL_CPP_FEATURES += exceptions

@@ -26,6 +26,7 @@ void ConfigClass::load() {
     explosionMultiplier = GET_PRIMITIVE(document, "explosion_multiplier", Float, PT_DEFAULT_EXPLOSION_MULTIPLIER);
     lifetimeMultiplier = GET_PRIMITIVE(document, "lifetime_multiplier", Float, PT_DEFAULT_LIFETIME_MULTIPLIER);
     rainbowParticles = GET_PRIMITIVE(document, "rainbow_particles", Bool, false);
+    reduceCoreParticles = GET_PRIMITIVE(document, "reduce_core_particles", Bool, false);
 }
 
 void ConfigClass::store() {
@@ -36,6 +37,7 @@ void ConfigClass::store() {
     SET_PRIMITIVE(document, "explosion_multiplier", Float, explosionMultiplier, allocator);
     SET_PRIMITIVE(document, "lifetime_multiplier", Float, lifetimeMultiplier, allocator);
     SET_PRIMITIVE(document, "rainbow_particles", Bool, rainbowParticles, allocator);
+    SET_PRIMITIVE(document, "reduce_core_particles", Bool, reduceCoreParticles, allocator);
 
     _storage.Write();
     getLogger().info("Configuration updated.");

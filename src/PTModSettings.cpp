@@ -36,6 +36,7 @@ void PTModSettingsApplyPreset(PTPresetData * presetData) {
         currentConfig.sparkleMultiplier = preset.sparkleMultiplier;
         currentConfig.explosionMultiplier = preset.explosionMultiplier;
         currentConfig.lifetimeMultiplier = preset.lifetimeMultiplier;
+        currentConfig.reduceCoreParticles = preset.reduceCoreParticles;
         vc->UpdateUIComponents();
     }
 }
@@ -70,6 +71,11 @@ void PTModSettingsOnLifetimeMultChange(PTModSettingsViewController* parent, floa
     }
 }
 
+void PTModSettingsOnReduceCoreParticlesToggle(PTModSettingsViewController* parent, bool newValue) {
+    getConfig().reduceCoreParticles = newValue;
+    getLogger().info("Set reduceCoreParticles=%d", newValue);
+}
+
 void PTModSettingsOnRainbowToggle(PTModSettingsViewController* parent, bool newValue) {
     getConfig().rainbowParticles = newValue;
     getLogger().info("Set rainbowParticles=%d", newValue);
@@ -101,6 +107,10 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         auto lifetimeChangeDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<float>*>(
             classof(UnityEngine::Events::UnityAction_1<float>*),
             this, PTModSettingsOnLifetimeMultChange
+        );
+        auto reduceCoreParticlesToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
+            classof(UnityEngine::Events::UnityAction_1<bool>*),
+            this, PTModSettingsOnReduceCoreParticlesToggle
         );
         auto rainbowToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
             classof(UnityEngine::Events::UnityAction_1<bool>*),
@@ -136,6 +146,14 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             lifetimeChangeDelegate
         );
         QuestUI::BeatSaberUI::AddHoverHint(lifetimeMultInc->get_gameObject(), "Tune the lifetime of particles. Lifetime determines how long the particles stay on the screen.");
+
+        reduceCoreParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
+            rootLayout->get_rectTransform(),
+            "Reduce Core Particles",
+            currentConfig.reduceCoreParticles,
+            reduceCoreParticlesToggleDelegate
+        );
+        QuestUI::BeatSaberUI::AddHoverHint(reduceCoreParticlesToggle->get_gameObject(), "Remove the core particle effects from slicing a block.");
 
         rainbowParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
             rootLayout->get_rectTransform(),
@@ -191,6 +209,9 @@ void PTModSettingsViewController::UpdateUIComponents() {
     sparklesMultInc->UpdateValue();
     explosionsMultInc->UpdateValue();
     lifetimeMultInc->UpdateValue();
+
+    rainbowParticlesToggle->set_isOn(currentConfig.rainbowParticles);
+    reduceCoreParticlesToggle->set_isOn(currentConfig.reduceCoreParticles);
 }
 
 void PTRegisterUI(ModInfo& modInfo) {

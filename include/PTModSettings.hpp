@@ -15,6 +15,7 @@ DECLARE_CLASS_CODEGEN(ParticleTuner, PTModSettingsViewController, HMUI::ViewCont
     DECLARE_INSTANCE_FIELD(QuestUI::IncrementSetting*, sparklesMultInc);
     DECLARE_INSTANCE_FIELD(QuestUI::IncrementSetting*, explosionsMultInc);
     DECLARE_INSTANCE_FIELD(QuestUI::IncrementSetting*, lifetimeMultInc);
+    DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, reduceCoreParticlesToggle);
     DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, rainbowParticlesToggle);
 
     DECLARE_OVERRIDE_METHOD(void, DidActivate, il2cpp_utils::FindMethodUnsafe("HMUI", "ViewController", "DidActivate", 3), bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling);
@@ -26,6 +27,7 @@ DECLARE_CLASS_CODEGEN(ParticleTuner, PTModSettingsViewController, HMUI::ViewCont
         REGISTER_FIELD(sparklesMultInc);
         REGISTER_FIELD(explosionsMultInc);
         REGISTER_FIELD(lifetimeMultInc);
+        REGISTER_FIELD(reduceCoreParticlesToggle);
         REGISTER_FIELD(rainbowParticlesToggle);
 
         REGISTER_METHOD(DidActivate);
