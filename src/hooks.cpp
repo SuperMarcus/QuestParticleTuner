@@ -5,6 +5,7 @@
 #include "UnityEngine/ParticleSystem_MainModule.hpp"
 #include "UnityEngine/Color.hpp"
 #include "GlobalNamespace/NoteCutParticlesEffect.hpp"
+#include "GlobalNamespace/SaberClashEffect.hpp"
 #include "UnityEngine/Random.hpp"
 #include "particletune.hpp"
 #include "particletune_private.hpp"
@@ -38,6 +39,14 @@ MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
     }
 
     NoteCutParticlesEffect_SpawnParticles(self, pos, cutNormal, saberDir, moveVec, color, newSparkleCount, newExplosionCount, newLifetimeMultiplier);
+}
+
+MAKE_HOOK_OFFSETLESS(SaberClashEffect_LateUpdate, void,
+                     GlobalNamespace::SaberClashEffect* self)
+{
+    auto& currentConfig = getConfig();
+    
+    SaberClashEffect_LateUpdate(self);
 }
 
 void PTInstallHooks() {

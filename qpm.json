@@ -11,13 +11,17 @@
   "dependencies": [
     {
       "id": "questui",
-      "versionRange": "0.2.3",
+      "versionRange": "0.2.5",
       "additionalData": {}
     },
     {
       "id": "beatsaber-hook",
-      "versionRange": "^0.8.2",
-      "additionalData": {}
+      "versionRange": "^0.8.4",
+      "additionalData": {
+        "extraFiles": [
+          "src/inline-hook"
+        ]
+      }
     },
     {
       "id": "libil2cpp",

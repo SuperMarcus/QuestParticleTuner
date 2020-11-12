@@ -29,6 +29,8 @@
         "ostream": "cpp",
         "array": "cpp",
         "utility": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "thread": "cpp",
+        "ranges": "cpp"
     }
 }

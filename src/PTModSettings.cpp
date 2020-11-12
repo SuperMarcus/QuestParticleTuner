@@ -85,17 +85,70 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
     if (firstActivation && addedToHierarchy) {
         getLogger().info("Adding mod settings UI components...");
 
-        auto rootLayout = QuestUI::BeatSaberUI::CreateVerticalLayoutGroup(get_rectTransform());
-        rootLayout->get_gameObject()->AddComponent<QuestUI::Backgroundable*>()->ApplyBackground(
-            il2cpp_utils::createcsstr("round-rect-panel")
-        );
-        rootLayout->set_padding(UnityEngine::RectOffset::New_ctor(16, 16, 8, 8));
+        auto sectionBackgroundName = il2cpp_utils::createcsstr("round-rect-panel");
+        auto sectionPadding = UnityEngine::RectOffset::New_ctor(4, 4, 4, 4);
 
-        constexpr auto rootLayoutPreferredWidth = 128;
-        auto rootLayoutElement = rootLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
-        rootLayoutElement->set_preferredWidth(rootLayoutPreferredWidth);
-        rootLayoutElement->set_preferredHeight(40);
+        // Root Layout
+        auto rootLayout = QuestUI::BeatSaberUI::CreateVerticalLayoutGroup(get_rectTransform());
+        rootLayout->set_spacing(4);
+
+        // Layout - Section Container
+        auto sectionContainerLayout = QuestUI::BeatSaberUI::CreateHorizontalLayoutGroup(rootLayout->get_rectTransform());
+        sectionContainerLayout->set_spacing(4);
+
+        // Layout - Presets Container
+        auto presetContainerLayout = QuestUI::BeatSaberUI::CreateHorizontalLayoutGroup(rootLayout->get_rectTransform());
+        presetContainerLayout->set_spacing(4);
+        auto presetContainerLayoutElement = presetContainerLayout
+            ->GetComponent<UnityEngine::UI::LayoutElement*>();
+        presetContainerLayoutElement->set_preferredHeight(8);
+        presetContainerLayoutElement->set_preferredWidth(100);
+        presetContainerLayoutElement->set_flexibleWidth(0);
+
+        // Layout - Left
+        auto leftSectionLayout = QuestUI::BeatSaberUI::CreateVerticalLayoutGroup(sectionContainerLayout->get_rectTransform());
+        leftSectionLayout->set_spacing(4);
+
+        auto leftSectionLayoutElement = leftSectionLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
+        leftSectionLayoutElement->set_preferredWidth(60);
+        // leftSectionLayoutElement->set_preferredHeight(45);
+
+        auto leftTogglesLayout = QuestUI::BeatSaberUI::CreateVerticalLayoutGroup(leftSectionLayout->get_rectTransform());
+        leftTogglesLayout->get_gameObject()
+            ->AddComponent<QuestUI::Backgroundable*>()
+            ->ApplyBackground(sectionBackgroundName);
+        leftTogglesLayout->set_padding(sectionPadding);
         
+        auto leftTogglesLayoutElement = leftTogglesLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
+        leftTogglesLayoutElement->set_flexibleHeight(0);
+        leftTogglesLayoutElement->set_preferredHeight(45);
+        leftTogglesLayoutElement->set_preferredWidth(60);
+
+        auto leftSpacingLayout = QuestUI::BeatSaberUI::CreateVerticalLayoutGroup(leftSectionLayout->get_rectTransform());
+        auto leftSpacingLayoutElement = leftSpacingLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
+        leftSpacingLayoutElement->set_preferredWidth(60);
+
+        // Layout - Center
+        auto centerSectionLayout = QuestUI::BeatSaberUI::CreateVerticalLayoutGroup(sectionContainerLayout->get_rectTransform());
+        centerSectionLayout->get_gameObject()
+            ->AddComponent<QuestUI::Backgroundable*>()
+            ->ApplyBackground(sectionBackgroundName);
+        centerSectionLayout->set_padding(sectionPadding);
+        auto centerSectionLayoutElement = centerSectionLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
+        centerSectionLayoutElement->set_preferredWidth(88);
+        centerSectionLayoutElement->set_preferredHeight(60);
+
+        // Layout - Right
+        // auto rightSectionLayout = QuestUI::BeatSaberUI::CreateVerticalLayoutGroup(sectionContainerLayout->get_rectTransform());
+        // rightSectionLayout->get_gameObject()
+        //     ->AddComponent<QuestUI::Backgroundable*>()
+        //     ->ApplyBackground(sectionBackgroundName);
+        // rightSectionLayout->set_padding(sectionPadding);
+        // auto rightSectionLayoutElement = rightSectionLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
+        // rightSectionLayoutElement->set_preferredWidth(60);
+        // rightSectionLayoutElement->set_preferredHeight(45);
+        
+        // Delegates
         auto sparkleChangeDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<float>*>(
             classof(UnityEngine::Events::UnityAction_1<float>*),
             this, PTModSettingsOnSparkleMultChange
@@ -118,10 +171,27 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         );
 
         auto &currentConfig = getConfig();
-        
-        // Configs
+
+        // Left Panel Configs
+        reduceCoreParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
+            leftTogglesLayout->get_rectTransform(),
+            "Reduce Core Particles",
+            currentConfig.reduceCoreParticles,
+            reduceCoreParticlesToggleDelegate
+        );
+        QuestUI::BeatSaberUI::AddHoverHint(reduceCoreParticlesToggle->get_gameObject(), "Remove the core particle effects from slicing a block.");
+
+        rainbowParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
+            leftTogglesLayout->get_rectTransform(),
+            "Rainbow Particles",
+            currentConfig.rainbowParticles,
+            rainbowToggleDelegate
+        );
+        QuestUI::BeatSaberUI::AddHoverHint(rainbowParticlesToggle->get_gameObject(), "Randomizes the color of particles!");
+
+        // Center Panel Configs
         sparklesMultInc = QuestUI::BeatSaberUI::CreateIncrementSetting(
-            rootLayout->get_rectTransform(),
+            centerSectionLayout->get_rectTransform(),
             "Sparkles Multiplier",
             1, 0.2,
             currentConfig.sparkleMultiplier,
@@ -130,7 +200,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         QuestUI::BeatSaberUI::AddHoverHint(sparklesMultInc->get_gameObject(), "Tune the amount of sparkles generated after a slash. Set to 0 to disable sparkles.");
 
         explosionsMultInc = QuestUI::BeatSaberUI::CreateIncrementSetting(
-            rootLayout->get_rectTransform(),
+            centerSectionLayout->get_rectTransform(),
             "Explosions Multiplier",
             1, 0.2,
             currentConfig.explosionMultiplier,
@@ -139,7 +209,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         QuestUI::BeatSaberUI::AddHoverHint(explosionsMultInc->get_gameObject(), "Tune the amount of explosions generated after a slash. Set to 0 to disable explosions.");
 
         lifetimeMultInc = QuestUI::BeatSaberUI::CreateIncrementSetting(
-            rootLayout->get_rectTransform(),
+            centerSectionLayout->get_rectTransform(),
             "Lifetime Multiplier",
             1, 0.2,
             currentConfig.lifetimeMultiplier,
@@ -147,29 +217,6 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         );
         QuestUI::BeatSaberUI::AddHoverHint(lifetimeMultInc->get_gameObject(), "Tune the lifetime of particles. Lifetime determines how long the particles stay on the screen.");
 
-        reduceCoreParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
-            rootLayout->get_rectTransform(),
-            "Reduce Core Particles",
-            currentConfig.reduceCoreParticles,
-            reduceCoreParticlesToggleDelegate
-        );
-        QuestUI::BeatSaberUI::AddHoverHint(reduceCoreParticlesToggle->get_gameObject(), "Remove the core particle effects from slicing a block.");
-
-        rainbowParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
-            rootLayout->get_rectTransform(),
-            "Rainbow Particles",
-            currentConfig.rainbowParticles,
-            rainbowToggleDelegate
-        );
-        QuestUI::BeatSaberUI::AddHoverHint(rainbowParticlesToggle->get_gameObject(), "Randomizes the color of particles!");
-
-        // Presets
-        auto presetsLayout = QuestUI::BeatSaberUI::CreateHorizontalLayoutGroup(rootLayout->get_rectTransform());
-        presetsLayout->set_spacing(1);
-
-        auto presetsLayoutElement = presetsLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
-        presetsLayoutElement->set_preferredHeight(8);
-        
         for (int i = 0; i < PT_NUMBER_OF_PRESETS; ++i) {
             if (!presetDataList[i]) {
                 auto object = CRASH_UNLESS(il2cpp_utils::New<PTPresetData*>());
@@ -185,7 +232,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
                 presetData, PTModSettingsApplyPreset
             );
             QuestUI::BeatSaberUI::CreateUIButton(
-                presetsLayout->get_rectTransform(),
+                presetContainerLayout->get_rectTransform(),
                 preset->name,
                 "OkButton",
                 presetBtnDelegate
