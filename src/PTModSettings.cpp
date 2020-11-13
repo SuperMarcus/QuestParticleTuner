@@ -26,7 +26,6 @@ static PTPreset presetsRawList[] = {
     PT_PRESET_FANCY,
     PT_PRESET_TOO_MUCH
 };
-static PTPresetData* presetDataList[PT_NUMBER_OF_PRESETS];
 
 void PTModSettingsApplyPreset(PTPresetData * presetData) {
     auto* vc = presetData->parent;
@@ -265,15 +264,11 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         QuestUI::BeatSaberUI::AddHoverHint(lifetimeMultInc->get_gameObject(), "Tune the lifetime of particles. Lifetime determines how long the particles stay on the screen.");
 
         for (int i = 0; i < PT_NUMBER_OF_PRESETS; ++i) {
-            if (!presetDataList[i]) {
-                auto object = CRASH_UNLESS(il2cpp_utils::New<PTPresetData*>());
-                object->preset = i;
-                presetDataList[i] = object;
-            }
-
-            auto *presetData = presetDataList[i];
             auto *preset = &presetsRawList[i];
+            auto *presetData = CRASH_UNLESS(il2cpp_utils::New<PTPresetData*>());
+            presetData->preset = i;
             presetData->parent = this;
+
             auto presetBtnDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction*>(
                 classof(UnityEngine::Events::UnityAction*),
                 presetData, PTModSettingsApplyPreset
@@ -319,5 +314,4 @@ void PTModSettingsViewController::UpdateUIComponents() {
 void PTRegisterUI(ModInfo& modInfo) {
     getLogger().info("Registering ParticleTuner UI...");
     QuestUI::Register::RegisterModSettingsViewController<PTModSettingsViewController*>(modInfo, "Particle Tuner");
-    memset(presetDataList, 0, sizeof(presetDataList));
 }
