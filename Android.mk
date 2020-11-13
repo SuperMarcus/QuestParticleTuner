@@ -26,9 +26,9 @@ LOCAL_CPP_FEATURES += exceptions
 include $(PREBUILT_SHARED_LIBRARY)
 # Creating prebuilt for dependency: codegen - version: 0.3.6
 include $(CLEAR_VARS)
-LOCAL_MODULE := codegen_0_3_6
+LOCAL_MODULE := codegen_0_4_0
 LOCAL_EXPORT_C_INCLUDES := extern/codegen
-LOCAL_SRC_FILES := extern/libcodegen_0_3_6.so
+LOCAL_SRC_FILES := extern/libcodegen_0_4_0.so
 LOCAL_CPP_FEATURES += exceptions
 include $(PREBUILT_SHARED_LIBRARY)
 # Creating prebuilt for dependency: questui - version: 0.2.5
@@ -48,12 +48,10 @@ LOCAL_SHARED_LIBRARIES += beatsaber-hook_0_8_4
 LOCAL_SHARED_LIBRARIES += modloader
 LOCAL_SHARED_LIBRARIES += custom-types
 LOCAL_SHARED_LIBRARIES += questui
-LOCAL_SHARED_LIBRARIES += codegen_0_3_6
+LOCAL_SHARED_LIBRARIES += codegen_0_4_0
 LOCAL_LDLIBS += -llog
 LOCAL_CFLAGS += -DVERSION='"1.0.1"' -DID='"particletuner"' -isystem 'extern/libil2cpp/il2cpp/libil2cpp'
 LOCAL_CPPFLAGS += -std=c++2a -frtti
-LOCAL_C_INCLUDES += ./include ./src ./shared ./extern ./extern/beatsaber-hook/shared
-LOCAL_C_INCLUDES += ./extern/modloader/shared ./extern/questui/shared ./extern/custom-types/shared
-LOCAL_C_INCLUDES += ./extern/codegen/include
+LOCAL_C_INCLUDES += ./include ./src ./shared ./extern ./extern/beatsaber-hook/shared ./extern/modloader/shared ./extern/questui/shared ./extern/custom-types/shared ./extern/codegen/include
 LOCAL_CPP_FEATURES += exceptions
 include $(BUILD_SHARED_LIBRARY)

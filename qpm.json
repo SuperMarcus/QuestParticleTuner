@@ -10,8 +10,13 @@
   },
   "dependencies": [
     {
-      "id": "questui",
-      "versionRange": "0.2.5",
+      "id": "codegen",
+      "versionRange": "^0.4.0",
+      "additionalData": {}
+    },
+    {
+      "id": "custom-types",
+      "versionRange": "^0.2.14",
       "additionalData": {}
     },
     {

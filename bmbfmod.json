@@ -4,7 +4,7 @@
   "version": "1.0.1",
   "author": "marcuszhou",
   "description": [
-    "Boost or reduce note-cutting particle effects. PartialTuner is a port of the ParticleOverdrive mod from PC to the Quest."
+    "Boost or reduce note-cutting and environmental particle effects. PartialTuner is a port of the ParticleOverdrive mod from PC to the Quest."
   ],
   "coverImageFilename": "cover.gif",
   "category": "Gameplay",
@@ -44,7 +44,7 @@
     {
       "type": "HookModLibrary",
       "installAction": {
-        "installLibraryFile": "libcodegen_0_3_6.so"
+        "installLibraryFile": "libcodegen_0_4_0.so"
       }
     }
   ]
