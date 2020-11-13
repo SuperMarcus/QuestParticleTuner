@@ -9,6 +9,8 @@ A partial port of the [ParticleOverdrive mod](https://github.com/Shadnix-was-tak
 
 The preferred way is to use the in-game UI for configuration.
 
+![settings](./settings_screenshot_wide.png)
+
 ## Credits
 
 * ParticleOverdrive: [Shadnix-was-taken/BeatSaber-ParticleOverdrive](https://github.com/Shadnix-was-taken/BeatSaber-ParticleOverdrive) and [lolPants/BeatSaber-ParticleOverdrive](https://github.com/lolPants/BeatSaber-ParticleOverdrive)
