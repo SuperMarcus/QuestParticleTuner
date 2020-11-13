@@ -12,3 +12,5 @@ typedef struct Color32 {
 const Logger& getLogger();
 
 void PTInstallHooks();
+void PTRegisterUI(struct ModInfo& modInfo);
+void PTRegisterTypes();

@@ -26,6 +26,7 @@ extern "C" void setup(ModInfo& info) {
 
 extern "C" void load() {
     getLogger().info("Loading ParticleTuner...");
+    PTRegisterTypes();
     PTInstallHooks();
     PTRegisterUI(modInfo);
     getLogger().info("Finished loading ParticleTuner.");

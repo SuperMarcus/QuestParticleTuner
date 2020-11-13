@@ -16,7 +16,10 @@ DECLARE_CLASS_CODEGEN(ParticleTuner, PTModSettingsViewController, HMUI::ViewCont
     DECLARE_INSTANCE_FIELD(QuestUI::IncrementSetting*, explosionsMultInc);
     DECLARE_INSTANCE_FIELD(QuestUI::IncrementSetting*, lifetimeMultInc);
     DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, reduceCoreParticlesToggle);
+    DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, reduceClashParticlesToggle);
+    DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, reduceDustParticlesToggle);
     DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, rainbowParticlesToggle);
+    DECLARE_INSTANCE_FIELD(Il2CppObject*, dustPSAgent);
 
     DECLARE_OVERRIDE_METHOD(void, DidActivate, il2cpp_utils::FindMethodUnsafe("HMUI", "ViewController", "DidActivate", 3), bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling);
     DECLARE_OVERRIDE_METHOD(void, DidDeactivate, il2cpp_utils::FindMethodUnsafe("HMUI", "ViewController", "DidDeactivate", 2), bool removedFromHierarchy, bool screenSystemDisabling);
@@ -28,7 +31,10 @@ DECLARE_CLASS_CODEGEN(ParticleTuner, PTModSettingsViewController, HMUI::ViewCont
         REGISTER_FIELD(explosionsMultInc);
         REGISTER_FIELD(lifetimeMultInc);
         REGISTER_FIELD(reduceCoreParticlesToggle);
+        REGISTER_FIELD(reduceClashParticlesToggle);
+        REGISTER_FIELD(reduceDustParticlesToggle);
         REGISTER_FIELD(rainbowParticlesToggle);
+        REGISTER_FIELD(dustPSAgent);
 
         REGISTER_METHOD(DidActivate);
         REGISTER_METHOD(DidDeactivate);
@@ -45,5 +51,3 @@ DECLARE_CLASS_CODEGEN(ParticleTuner, PTPresetData, Il2CppObject,
         REGISTER_FIELD(preset);
     )
 )
-
-void PTRegisterUI(ModInfo& modInfo);

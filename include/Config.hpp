@@ -7,11 +7,13 @@
 #define PT_DEFAULT_EXPLOSION_MULTIPLIER     1.0
 #define PT_DEFAULT_LIFETIME_MULTIPLIER      1.0
 
-#define PT_PRESET_NONE      { "None", 0.0, 0.0, 0.0, true }
-#define PT_PRESET_NORMAL    { "Normal", 1.0, 1.0, 1.0, false }
-#define PT_PRESET_FANCY     { "Fancy", 5.0, 5.0, 2.0, false }
-#define PT_PRESET_TOO_MUCH  { "Too Much", 100.0, 100.0, 10.0, false }
+#define PT_PRESET_NONE      { "None", 0.0, 0.0, 0.0, true, true, true, false }
+#define PT_PRESET_NORMAL    { "Normal", 1.0, 1.0, 1.0, false, false, false, false }
+#define PT_PRESET_FANCY     { "Fancy", 5.0, 5.0, 2.0, false, false, false, true }
+#define PT_PRESET_TOO_MUCH  { "Too Much", 100.0, 100.0, 10.0, false, false, false, true }
 #define PT_NUMBER_OF_PRESETS 4
+
+#define PT_DISCOVERY_MAX_ITERATIONS         5
 
 struct PTPreset {
     std::string name;
@@ -19,6 +21,9 @@ struct PTPreset {
     float explosionMultiplier;
     float lifetimeMultiplier;
     bool reduceCoreParticles;
+    bool reduceClashParticles;
+    bool reduceDustParticles;
+    bool rainbowParticles;
 };
 
 class ConfigClass {
@@ -26,8 +31,11 @@ public:
     float sparkleMultiplier;
     float explosionMultiplier;
     float lifetimeMultiplier;
+
     bool rainbowParticles;
     bool reduceCoreParticles;
+    bool reduceClashParticles;
+    bool reduceDustParticles;
 
     void load();
     void store();

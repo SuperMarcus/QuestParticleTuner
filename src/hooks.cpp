@@ -4,12 +4,18 @@
 #include "UnityEngine/ParticleSystem.hpp"
 #include "UnityEngine/ParticleSystem_MainModule.hpp"
 #include "UnityEngine/Color.hpp"
+#include "UnityEngine/SceneManagement/Scene.hpp"
+#include "System/Collections/IEnumerator.hpp"
+#include "GlobalNamespace/SharedCoroutineStarter.hpp"
 #include "GlobalNamespace/NoteCutParticlesEffect.hpp"
 #include "GlobalNamespace/SaberClashEffect.hpp"
 #include "UnityEngine/Random.hpp"
 #include "particletune.hpp"
 #include "particletune_private.hpp"
+#include "PTScenePSController.hpp"
 #include "Config.hpp"
+
+using namespace ParticleTuner;
 
 MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
                      GlobalNamespace::NoteCutParticlesEffect* self, Vector3 pos, Vector3 cutNormal,
@@ -45,11 +51,44 @@ MAKE_HOOK_OFFSETLESS(SaberClashEffect_LateUpdate, void,
                      GlobalNamespace::SaberClashEffect* self)
 {
     auto& currentConfig = getConfig();
+
+    auto glowPS = self->glowParticleSystem;
+    auto sparklePS = self->sparkleParticleSystem;
+
+    glowPS->get_main().set_maxParticles(currentConfig.reduceClashParticles ? 0 : INT_MAX);
+    sparklePS->get_main().set_maxParticles(currentConfig.reduceClashParticles ? 0 : INT_MAX);
     
     SaberClashEffect_LateUpdate(self);
+}
+
+MAKE_HOOK_OFFSETLESS(SceneManager_Internal_ActiveSceneChanged, void,
+                     UnityEngine::SceneManagement::Scene oldScene,
+                     UnityEngine::SceneManagement::Scene newScene
+) {
+    static std::vector<std::string> sensitiveScenes = {
+        "Init", "MenuViewControllers", "GameCore", "Credits"
+    };
+
+    SceneManager_Internal_ActiveSceneChanged(oldScene, newScene);
+
+    auto sceneNameCs = newScene.get_name();
+
+    if (sceneNameCs) {
+        auto sceneName = to_utf8(csstrtostr(newScene.get_name()));
+        // getLogger().info("Transitioning to scene: %s", sceneName.data());
+        
+        if (std::find(sensitiveScenes.begin(), sensitiveScenes.end(), sceneName) != sensitiveScenes.end()) {
+            getLogger().info("Starting PTScenePSDiscoveryAgent...");
+            auto discoveryAgent = THROW_UNLESS(il2cpp_utils::New<PTScenePSDiscoveryAgent*>());
+            GlobalNamespace::SharedCoroutineStarter::get_instance()
+                ->StartCoroutine(reinterpret_cast<System::Collections::IEnumerator*>(discoveryAgent));
+        }
+    }
 }
 
 void PTInstallHooks() {
     getLogger().info("Adding hooks...");
     INSTALL_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, il2cpp_utils::FindMethodUnsafe("", "NoteCutParticlesEffect", "SpawnParticles", 8));
+    INSTALL_HOOK_OFFSETLESS(SaberClashEffect_LateUpdate, il2cpp_utils::FindMethod("", "SaberClashEffect", "LateUpdate"));
+    INSTALL_HOOK_OFFSETLESS(SceneManager_Internal_ActiveSceneChanged, il2cpp_utils::FindMethodUnsafe("UnityEngine.SceneManagement", "SceneManager", "Internal_ActiveSceneChanged", 2));
 }
