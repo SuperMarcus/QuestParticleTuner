@@ -37,6 +37,7 @@ void PTModSettingsApplyPreset(PTPresetData * presetData) {
         currentConfig.sparkleMultiplier = preset.sparkleMultiplier;
         currentConfig.explosionMultiplier = preset.explosionMultiplier;
         currentConfig.lifetimeMultiplier = preset.lifetimeMultiplier;
+        currentConfig.particleOpacity = preset.particleOpacity;
         currentConfig.reduceCoreParticles = preset.reduceCoreParticles;
         currentConfig.reduceClashParticles = preset.reduceClashParticles;
         currentConfig.reduceDustParticles = preset.reduceDustParticles;
@@ -326,10 +327,12 @@ void PTModSettingsViewController::UpdateUIComponents() {
     sparklesMultInc->CurrentValue = currentConfig.sparkleMultiplier;
     explosionsMultInc->CurrentValue = currentConfig.explosionMultiplier;
     lifetimeMultInc->CurrentValue = currentConfig.lifetimeMultiplier;
+    particleOpacityInc->CurrentValue = currentConfig.particleOpacity;
 
     sparklesMultInc->UpdateValue();
     explosionsMultInc->UpdateValue();
     lifetimeMultInc->UpdateValue();
+    particleOpacityInc->UpdateValue();
 
     rainbowParticlesToggle->set_isOn(currentConfig.rainbowParticles);
     reduceClashParticlesToggle->set_isOn(currentConfig.reduceClashParticles);

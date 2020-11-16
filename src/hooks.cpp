@@ -49,10 +49,12 @@ MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
         currentConfig.lifetimeMultiplier
     );
 
-    icall_functions::ParticleSystem_MainModule::set_startLifetimeMultiplier_Injected(
-        &coreMain,
-        currentConfig.reduceCoreParticles ? 0.0f : 1.0f
-    );
+    if (currentConfig.reduceCoreParticles) {
+        icall_functions::ParticleSystem_MainModule::set_startLifetimeMultiplier_Injected(
+            &coreMain,
+            0.0f
+        );
+    }
 
     if (currentConfig.rainbowParticles) {
         auto randomColor = UnityEngine::Random::ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
@@ -63,7 +65,7 @@ MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
 
     // Set alpha channel
     color.a = static_cast<uint8_t>(std::clamp(currentConfig.particleOpacity * 255.0f, 0.0f, 255.0f));
-    
+
     NoteCutParticlesEffect_SpawnParticles(self, pos, cutNormal, saberDir, moveVec, color, newSparkleCount, newExplosionCount, newLifetimeMultiplier);
 }
 

@@ -25,6 +25,8 @@ void ConfigClass::load() {
     sparkleMultiplier = GET_PRIMITIVE(document, "sparkles_multiplier", Float, PT_DEFAULT_SPARKLE_MULTIPLIER);
     explosionMultiplier = GET_PRIMITIVE(document, "explosion_multiplier", Float, PT_DEFAULT_EXPLOSION_MULTIPLIER);
     lifetimeMultiplier = GET_PRIMITIVE(document, "lifetime_multiplier", Float, PT_DEFAULT_LIFETIME_MULTIPLIER);
+    particleOpacity = GET_PRIMITIVE(document, "particle_opacity", Float, PT_DEFAULT_PARTICLE_OPACITY);
+
     rainbowParticles = GET_PRIMITIVE(document, "rainbow_particles", Bool, false);
     reduceCoreParticles = GET_PRIMITIVE(document, "reduce_core_particles", Bool, false);
     reduceClashParticles = GET_PRIMITIVE(document, "reduce_clash_particles", Bool, false);
@@ -38,6 +40,7 @@ void ConfigClass::store() {
     SET_PRIMITIVE(document, "sparkles_multiplier", Float, sparkleMultiplier, allocator);
     SET_PRIMITIVE(document, "explosion_multiplier", Float, explosionMultiplier, allocator);
     SET_PRIMITIVE(document, "lifetime_multiplier", Float, lifetimeMultiplier, allocator);
+    SET_PRIMITIVE(document, "particle_opacity", Float, particleOpacity, allocator);
     SET_PRIMITIVE(document, "rainbow_particles", Bool, rainbowParticles, allocator);
     SET_PRIMITIVE(document, "reduce_core_particles", Bool, reduceCoreParticles, allocator);
     SET_PRIMITIVE(document, "reduce_clash_particles", Bool, reduceClashParticles, allocator);

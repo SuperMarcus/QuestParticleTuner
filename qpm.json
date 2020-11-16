@@ -20,6 +20,11 @@
       "additionalData": {}
     },
     {
+      "id": "questui",
+      "versionRange": "^0.2.6",
+      "additionalData": {}
+    },
+    {
       "id": "beatsaber-hook",
       "versionRange": "^0.8.4",
       "additionalData": {
