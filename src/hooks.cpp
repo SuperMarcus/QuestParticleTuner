@@ -1,9 +1,12 @@
+#include <algorithm>
+
 #include "beatsaber-hook/shared/utils/il2cpp-utils.hpp"
 #include "beatsaber-hook/shared/utils/typedefs.h"
 #include "beatsaber-hook/shared/utils/utils.h"
 #include "UnityEngine/ParticleSystem.hpp"
 #include "UnityEngine/ParticleSystem_MainModule.hpp"
 #include "UnityEngine/Color.hpp"
+#include "UnityEngine/Color32.hpp"
 #include "UnityEngine/SceneManagement/Scene.hpp"
 #include "System/Collections/IEnumerator.hpp"
 #include "GlobalNamespace/SharedCoroutineStarter.hpp"
@@ -14,6 +17,7 @@
 #include "particletune_private.hpp"
 #include "PTScenePSController.hpp"
 #include "Config.hpp"
+#include "UnityInternalCalls.hpp"
 
 using namespace ParticleTuner;
 
@@ -32,18 +36,34 @@ MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
     auto explosionPS = self->explosionPS;
     auto corePS = self->explosionCorePS;
 
-    sparklesPS->get_main().set_maxParticles(INT_MAX);
-    explosionPS->get_main().set_maxParticles(INT_MAX);
-    corePS->get_main().set_maxParticles(currentConfig.reduceCoreParticles ? 0 : INT_MAX);
+    auto sparklesMain = sparklesPS->get_main();
+    auto explosionMain = explosionPS->get_main();
+    auto coreMain = corePS->get_main();
+
+    sparklesMain.set_maxParticles(INT_MAX);
+    explosionMain.set_maxParticles(INT_MAX);
+    coreMain.set_maxParticles(currentConfig.reduceCoreParticles ? 0 : INT_MAX);
+
+    icall_functions::ParticleSystem_MainModule::set_startLifetimeMultiplier_Injected(
+        &explosionMain,
+        currentConfig.lifetimeMultiplier
+    );
+
+    icall_functions::ParticleSystem_MainModule::set_startLifetimeMultiplier_Injected(
+        &coreMain,
+        currentConfig.reduceCoreParticles ? 0.0f : 1.0f
+    );
 
     if (currentConfig.rainbowParticles) {
-        auto randomColor = UnityEngine::Random::ColorHSV();
-        color.a = static_cast<uint8_t>(randomColor.a * 255);
+        auto randomColor = UnityEngine::Random::ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
         color.r = static_cast<uint8_t>(randomColor.r * 255);
         color.g = static_cast<uint8_t>(randomColor.g * 255);
         color.b = static_cast<uint8_t>(randomColor.b * 255);
     }
 
+    // Set alpha channel
+    color.a = static_cast<uint8_t>(std::clamp(currentConfig.particleOpacity * 255.0f, 0.0f, 255.0f));
+    
     NoteCutParticlesEffect_SpawnParticles(self, pos, cutNormal, saberDir, moveVec, color, newSparkleCount, newExplosionCount, newLifetimeMultiplier);
 }
 

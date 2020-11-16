@@ -15,6 +15,7 @@ DECLARE_CLASS_CODEGEN(ParticleTuner, PTModSettingsViewController, HMUI::ViewCont
     DECLARE_INSTANCE_FIELD(QuestUI::IncrementSetting*, sparklesMultInc);
     DECLARE_INSTANCE_FIELD(QuestUI::IncrementSetting*, explosionsMultInc);
     DECLARE_INSTANCE_FIELD(QuestUI::IncrementSetting*, lifetimeMultInc);
+    DECLARE_INSTANCE_FIELD(QuestUI::IncrementSetting*, particleOpacityInc);
     DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, reduceCoreParticlesToggle);
     DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, reduceClashParticlesToggle);
     DECLARE_INSTANCE_FIELD(UnityEngine::UI::Toggle*, reduceDustParticlesToggle);
@@ -30,6 +31,7 @@ DECLARE_CLASS_CODEGEN(ParticleTuner, PTModSettingsViewController, HMUI::ViewCont
         REGISTER_FIELD(sparklesMultInc);
         REGISTER_FIELD(explosionsMultInc);
         REGISTER_FIELD(lifetimeMultInc);
+        REGISTER_FIELD(particleOpacityInc);
         REGISTER_FIELD(reduceCoreParticlesToggle);
         REGISTER_FIELD(reduceClashParticlesToggle);
         REGISTER_FIELD(reduceDustParticlesToggle);

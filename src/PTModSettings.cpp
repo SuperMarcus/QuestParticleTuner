@@ -75,6 +75,19 @@ void PTModSettingsOnLifetimeMultChange(PTModSettingsViewController* parent, floa
     }
 }
 
+void PTModSettingsOnParticleOpacityChange(PTModSettingsViewController* parent, float newValue) {
+    if (newValue < 0.0f) {
+        parent->particleOpacityInc->CurrentValue = 0.0f;
+        parent->particleOpacityInc->UpdateValue();
+    } else if (newValue > 1.0f) {
+        parent->particleOpacityInc->CurrentValue = 1.0f;
+        parent->particleOpacityInc->UpdateValue();
+    } else {
+        getConfig().particleOpacity = newValue;
+        getLogger().info("Set particleOpacity=%f", newValue);
+    }
+}
+
 void PTModSettingsOnReduceCoreParticlesToggle(PTModSettingsViewController* parent, bool newValue) {
     getConfig().reduceCoreParticles = newValue;
     getLogger().info("Set reduceCoreParticles=%d", newValue);
@@ -183,6 +196,10 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             classof(UnityEngine::Events::UnityAction_1<float>*),
             this, PTModSettingsOnLifetimeMultChange
         );
+        auto particleOpacityChangeDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<float>*>(
+            classof(UnityEngine::Events::UnityAction_1<float>*),
+            this, PTModSettingsOnParticleOpacityChange
+        );
         auto reduceCoreParticlesToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
             classof(UnityEngine::Events::UnityAction_1<bool>*),
             this, PTModSettingsOnReduceCoreParticlesToggle
@@ -262,6 +279,15 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             lifetimeChangeDelegate
         );
         QuestUI::BeatSaberUI::AddHoverHint(lifetimeMultInc->get_gameObject(), "Tune the lifetime of particles. Lifetime determines how long the particles stay on the screen.");
+
+        particleOpacityInc = QuestUI::BeatSaberUI::CreateIncrementSetting(
+            centerSectionLayout->get_rectTransform(),
+            "Particle Opacity",
+            1, 0.1,
+            currentConfig.particleOpacity,
+            particleOpacityChangeDelegate
+        );
+        QuestUI::BeatSaberUI::AddHoverHint(particleOpacityInc->get_gameObject(), "Adjust the opacity of the slash particle.");
 
         for (int i = 0; i < PT_NUMBER_OF_PRESETS; ++i) {
             auto *preset = &presetsRawList[i];

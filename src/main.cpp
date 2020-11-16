@@ -3,6 +3,7 @@
 #include "particletune.hpp"
 #include "Config.hpp"
 #include "PTModSettings.hpp"
+#include "UnityInternalCalls.hpp"
 
 static ModInfo modInfo;
 
@@ -27,6 +28,7 @@ extern "C" void setup(ModInfo& info) {
 extern "C" void load() {
     getLogger().info("Loading ParticleTuner...");
     PTRegisterTypes();
+    ParticleTuner::icall_functions::resolve_icalls();
     PTInstallHooks();
     PTRegisterUI(modInfo);
     getLogger().info("Finished loading ParticleTuner.");

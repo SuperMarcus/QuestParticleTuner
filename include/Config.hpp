@@ -31,6 +31,7 @@ public:
     float sparkleMultiplier;
     float explosionMultiplier;
     float lifetimeMultiplier;
+    float particleOpacity;
 
     bool rainbowParticles;
     bool reduceCoreParticles;

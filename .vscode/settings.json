@@ -46,6 +46,7 @@
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "__config": "cpp"
     }
 }
