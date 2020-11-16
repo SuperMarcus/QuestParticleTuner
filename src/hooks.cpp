@@ -42,7 +42,6 @@ MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
 
     sparklesMain.set_maxParticles(INT_MAX);
     explosionMain.set_maxParticles(INT_MAX);
-    coreMain.set_maxParticles(currentConfig.reduceCoreParticles ? 0 : INT_MAX);
 
     icall_functions::ParticleSystem_MainModule::set_startLifetimeMultiplier_Injected(
         &explosionMain,
@@ -54,6 +53,7 @@ MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
             &coreMain,
             0.0f
         );
+        coreMain.set_maxParticles(0);
     }
 
     if (currentConfig.rainbowParticles) {

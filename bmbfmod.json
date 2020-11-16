@@ -1,7 +1,7 @@
 {
   "id": "particletuner",
   "name": "Particles",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "marcuszhou",
   "description": [
     "Boost or reduce note-cutting and environmental particle effects. QuestParticles is a port of the ParticleOverdrive mod from PC to the Quest."
@@ -17,10 +17,10 @@
     {
       "Type": "HookMod",
       "InstallAction": {
-        "InstallLibraryFile": "libparticletuner_1_0_1.so"
+        "InstallLibraryFile": "libparticletuner.so"
       },
       "UninstallAction": {
-        "RemoveLibraryFile": "libparticletuner_1_0_1.so"
+        "RemoveLibraryFile": "libparticletuner.so"
       }
     },
     {
