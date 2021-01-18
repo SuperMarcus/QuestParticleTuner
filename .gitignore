@@ -6,3 +6,5 @@ obj/
 Android.mk.backup
 qpm.shared.json
 ParticleTuner.zip
+.idea
+cmake-build-debug

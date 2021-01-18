@@ -41,6 +41,7 @@ void PTModSettingsApplyPreset(PTPresetData * presetData) {
         currentConfig.reduceCoreParticles = preset.reduceCoreParticles;
         currentConfig.reduceClashParticles = preset.reduceClashParticles;
         currentConfig.reduceDustParticles = preset.reduceDustParticles;
+        currentConfig.boostSaturation = preset.boostSaturation;
         currentConfig.rainbowParticles = preset.rainbowParticles;
         vc->UpdateUIComponents();
     }
@@ -113,6 +114,11 @@ void PTModSettingsOnReduceDustParticlesToggle(PTModSettingsViewController* paren
     }
 
     getLogger().info("Set reduceDustParticles=%d", newValue);
+}
+
+void PTModSettingsOnBoostSaturationToggle(PTModSettingsViewController* parent, bool newValue) {
+    getConfig().boostSaturation = newValue;
+    getLogger().info("Set boostSaturation=%d", newValue);
 }
 
 void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
@@ -213,6 +219,10 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             classof(UnityEngine::Events::UnityAction_1<bool>*),
             this, PTModSettingsOnReduceDustParticlesToggle
         );
+        auto boostSaturationToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
+            classof(UnityEngine::Events::UnityAction_1<bool>*),
+            this, PTModSettingsOnBoostSaturationToggle
+        );
         auto rainbowToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
             classof(UnityEngine::Events::UnityAction_1<bool>*),
             this, PTModSettingsOnRainbowToggle
@@ -244,6 +254,14 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             reduceDustParticlesToggleDelegate
         );
         QuestUI::BeatSaberUI::AddHoverHint(reduceDustParticlesToggle->get_gameObject(), "Remove the particles floating in the air.");
+
+        boostSaturationToggle = QuestUI::BeatSaberUI::CreateToggle(
+            leftTogglesLayout->get_rectTransform(),
+            "Boost Saturation",
+            currentConfig.boostSaturation,
+            boostSaturationToggleDelegate
+        );
+        QuestUI::BeatSaberUI::AddHoverHint(boostSaturationToggle->get_gameObject(), "Make the note slash particle more vibrant.");
 
         rainbowParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
             leftTogglesLayout->get_rectTransform(),
@@ -338,6 +356,7 @@ void PTModSettingsViewController::UpdateUIComponents() {
     reduceClashParticlesToggle->set_isOn(currentConfig.reduceClashParticles);
     reduceCoreParticlesToggle->set_isOn(currentConfig.reduceCoreParticles);
     reduceDustParticlesToggle->set_isOn(currentConfig.reduceDustParticles);
+    boostSaturationToggle->set_isOn(currentConfig.boostSaturation);
 }
 
 void PTRegisterUI(ModInfo& modInfo) {

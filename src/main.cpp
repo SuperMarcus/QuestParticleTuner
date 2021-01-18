@@ -7,9 +7,9 @@
 
 static ModInfo modInfo;
 
-const Logger& getLogger() {
-    static const Logger logger(modInfo);
-    return logger;
+Logger& getLogger() {
+    static auto logger = new Logger(modInfo);
+    return *logger;
 }
 
 ConfigClass& getConfig() {

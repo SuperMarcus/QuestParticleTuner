@@ -1,5 +1,6 @@
 #include <algorithm>
 
+#include "utils/logging.hpp"
 #include "beatsaber-hook/shared/utils/il2cpp-utils.hpp"
 #include "beatsaber-hook/shared/utils/typedefs.h"
 #include "beatsaber-hook/shared/utils/utils.h"
@@ -18,6 +19,7 @@
 #include "PTScenePSController.hpp"
 #include "Config.hpp"
 #include "UnityInternalCalls.hpp"
+#include "color.h"
 
 using namespace ParticleTuner;
 
@@ -62,6 +64,19 @@ MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
         color.g = static_cast<uint8_t>(randomColor.g * 255);
         color.b = static_cast<uint8_t>(randomColor.b * 255);
     }
+
+    getLogger().debug("before: %d, %d, %d, %d", color.r, color.g, color.b, color.a);
+
+    if (currentConfig.boostSaturation) {
+
+//        float h, s, v;
+//        rgb2hsv(color, h, s, v);
+//        s = 1.0f; // Max saturation, value
+//        v = 0.3f;
+//        hsv2rgb(h, s, v, color);
+    }
+
+    getLogger().debug("after: %d, %d, %d, %d", color.r, color.g, color.b, color.a);
 
     // Set alpha channel
     color.a = static_cast<uint8_t>(std::clamp(currentConfig.particleOpacity * 255.0f, 0.0f, 255.0f));
@@ -109,8 +124,9 @@ MAKE_HOOK_OFFSETLESS(SceneManager_Internal_ActiveSceneChanged, void,
 }
 
 void PTInstallHooks() {
-    getLogger().info("Adding hooks...");
-    INSTALL_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, il2cpp_utils::FindMethodUnsafe("", "NoteCutParticlesEffect", "SpawnParticles", 8));
-    INSTALL_HOOK_OFFSETLESS(SaberClashEffect_LateUpdate, il2cpp_utils::FindMethod("", "SaberClashEffect", "LateUpdate"));
-    INSTALL_HOOK_OFFSETLESS(SceneManager_Internal_ActiveSceneChanged, il2cpp_utils::FindMethodUnsafe("UnityEngine.SceneManagement", "SceneManager", "Internal_ActiveSceneChanged", 2));
+    auto& logger = getLogger();
+    logger.info("Adding hooks...");
+    INSTALL_HOOK_OFFSETLESS(logger, NoteCutParticlesEffect_SpawnParticles, il2cpp_utils::FindMethodUnsafe("", "NoteCutParticlesEffect", "SpawnParticles", 8));
+    INSTALL_HOOK_OFFSETLESS(logger, SaberClashEffect_LateUpdate, il2cpp_utils::FindMethod("", "SaberClashEffect", "LateUpdate"));
+    INSTALL_HOOK_OFFSETLESS(logger, SceneManager_Internal_ActiveSceneChanged, il2cpp_utils::FindMethodUnsafe("UnityEngine.SceneManagement", "SceneManager", "Internal_ActiveSceneChanged", 2));
 }

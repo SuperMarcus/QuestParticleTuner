@@ -1,6 +1,13 @@
 #pragma once
 
-#include "beatsaber-hook/shared/utils/logging.hpp"
+#include <cstdlib>
+#include <cstdio>
+#include <cstdint>
+#include <cstddef>
+#include <string>
+
+#include "utils/typedefs.h"
+#include "utils/logging.hpp"
 
 typedef struct Color32 {
     uint8_t r;
@@ -9,7 +16,7 @@ typedef struct Color32 {
     uint8_t a;
 } Color32;
 
-const Logger& getLogger();
+Logger& getLogger();
 
 void PTInstallHooks();
 void PTRegisterUI(struct ModInfo& modInfo);
