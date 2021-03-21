@@ -9,3 +9,4 @@ ParticleTuner.zip
 .idea
 cmake-build-debug
 ParticleTuner.qmod
+ParticleTuner.*.qmod
