@@ -3,6 +3,8 @@
 #include "Config.hpp"
 
 #include "UnityEngine/GameObject.hpp"
+#include "UnityEngine/Transform.hpp"
+#include "UnityEngine/RectTransform.hpp"
 #include "UnityEngine/UI/VerticalLayoutGroup.hpp"
 #include "UnityEngine/UI/HorizontalLayoutGroup.hpp"
 #include "UnityEngine/UI/LayoutElement.hpp"
@@ -191,42 +193,18 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         // rightSectionLayoutElement->set_preferredHeight(45);
         
         // Delegates
-        auto sparkleChangeDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<float>*>(
-            classof(UnityEngine::Events::UnityAction_1<float>*),
-            this, PTModSettingsOnSparkleMultChange
-        );
-        auto explosionChangeDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<float>*>(
-            classof(UnityEngine::Events::UnityAction_1<float>*),
-            this, PTModSettingsOnExplosionMultChange
-        );
-        auto lifetimeChangeDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<float>*>(
-            classof(UnityEngine::Events::UnityAction_1<float>*),
-            this, PTModSettingsOnLifetimeMultChange
-        );
-        auto particleOpacityChangeDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<float>*>(
-            classof(UnityEngine::Events::UnityAction_1<float>*),
-            this, PTModSettingsOnParticleOpacityChange
-        );
-        auto reduceCoreParticlesToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
-            classof(UnityEngine::Events::UnityAction_1<bool>*),
-            this, PTModSettingsOnReduceCoreParticlesToggle
-        );
-        auto reduceClashParticlesToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
-            classof(UnityEngine::Events::UnityAction_1<bool>*),
-            this, PTModSettingsOnReduceClashParticlesToggle
-        );
-        auto reduceDustParticlesToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
-            classof(UnityEngine::Events::UnityAction_1<bool>*),
-            this, PTModSettingsOnReduceDustParticlesToggle
-        );
+        auto sparkleChangeDelegate = std::bind(PTModSettingsOnSparkleMultChange, this, std::placeholders::_1);
+        auto explosionChangeDelegate = std::bind(PTModSettingsOnExplosionMultChange, this, std::placeholders::_1);
+        auto lifetimeChangeDelegate = std::bind(PTModSettingsOnLifetimeMultChange, this, std::placeholders::_1);
+        auto particleOpacityChangeDelegate = std::bind(PTModSettingsOnParticleOpacityChange, this, std::placeholders::_1);
+        auto reduceCoreParticlesToggleDelegate = std::bind(PTModSettingsOnReduceCoreParticlesToggle, this, std::placeholders::_1);
+        auto reduceClashParticlesToggleDelegate = std::bind(PTModSettingsOnReduceClashParticlesToggle, this, std::placeholders::_1);
+        auto reduceDustParticlesToggleDelegate = std::bind(PTModSettingsOnReduceDustParticlesToggle, this, std::placeholders::_1);
 //        auto boostSaturationToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
 //            classof(UnityEngine::Events::UnityAction_1<bool>*),
 //            this, PTModSettingsOnBoostSaturationToggle
 //        );
-        auto rainbowToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
-            classof(UnityEngine::Events::UnityAction_1<bool>*),
-            this, PTModSettingsOnRainbowToggle
-        );
+        auto rainbowToggleDelegate = std::bind(PTModSettingsOnRainbowToggle, this, std::placeholders::_1);
 
         auto &currentConfig = getConfig();
 
@@ -314,15 +292,11 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             presetData->preset = i;
             presetData->parent = this;
 
-            auto presetBtnDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction*>(
-                classof(UnityEngine::Events::UnityAction*),
-                presetData, PTModSettingsApplyPreset
-            );
             QuestUI::BeatSaberUI::CreateUIButton(
                 presetContainerLayout->get_rectTransform(),
                 preset->name,
                 "OkButton",
-                presetBtnDelegate
+                std::bind(PTModSettingsApplyPreset, presetData)
             );
         }
 

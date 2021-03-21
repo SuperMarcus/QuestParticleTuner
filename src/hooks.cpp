@@ -4,6 +4,7 @@
 #include "beatsaber-hook/shared/utils/il2cpp-utils.hpp"
 #include "beatsaber-hook/shared/utils/typedefs.h"
 #include "beatsaber-hook/shared/utils/utils.h"
+#include "UnityEngine/Vector3.hpp"
 #include "UnityEngine/ParticleSystem.hpp"
 #include "UnityEngine/ParticleSystem_MainModule.hpp"
 #include "UnityEngine/Color.hpp"
@@ -24,10 +25,10 @@
 using namespace ParticleTuner;
 
 MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
-                     GlobalNamespace::NoteCutParticlesEffect* self, Vector3 pos, Vector3 cutNormal,
-                     Vector3 saberDir, Vector3 moveVec, Color32 color,
-                     int sparkleParticlesCount, int explosionParticlesCount,
-                     float lifetimeMultiplier)
+                     GlobalNamespace::NoteCutParticlesEffect* self, UnityEngine::Vector3 cutPoint,
+                     UnityEngine::Vector3 cutNormal, UnityEngine::Vector3 saberDir, float saberSpeed,
+                     UnityEngine::Vector3 noteMovementVec, UnityEngine::Color32 color, int sparkleParticlesCount,
+                     int explosionParticlesCount, float lifetimeMultiplier)
 {
     auto& currentConfig = getConfig();
     int newSparkleCount = static_cast<int>(sparkleParticlesCount * currentConfig.sparkleMultiplier);
@@ -81,7 +82,10 @@ MAKE_HOOK_OFFSETLESS(NoteCutParticlesEffect_SpawnParticles, void,
     // Set alpha channel
     color.a = static_cast<uint8_t>(std::clamp(currentConfig.particleOpacity * 255.0f, 0.0f, 255.0f));
 
-    NoteCutParticlesEffect_SpawnParticles(self, pos, cutNormal, saberDir, moveVec, color, newSparkleCount, newExplosionCount, newLifetimeMultiplier);
+    NoteCutParticlesEffect_SpawnParticles(
+        self, cutPoint, cutNormal, saberDir, saberSpeed, noteMovementVec, color,
+        newSparkleCount, newExplosionCount, newLifetimeMultiplier
+        );
 }
 
 MAKE_HOOK_OFFSETLESS(SaberClashEffect_LateUpdate, void,
@@ -126,7 +130,7 @@ MAKE_HOOK_OFFSETLESS(SceneManager_Internal_ActiveSceneChanged, void,
 void PTInstallHooks() {
     auto& logger = getLogger();
     logger.info("Adding hooks...");
-    INSTALL_HOOK_OFFSETLESS(logger, NoteCutParticlesEffect_SpawnParticles, il2cpp_utils::FindMethodUnsafe("", "NoteCutParticlesEffect", "SpawnParticles", 8));
+    INSTALL_HOOK_OFFSETLESS(logger, NoteCutParticlesEffect_SpawnParticles, il2cpp_utils::FindMethodUnsafe("", "NoteCutParticlesEffect", "SpawnParticles", 9));
     INSTALL_HOOK_OFFSETLESS(logger, SaberClashEffect_LateUpdate, il2cpp_utils::FindMethod("", "SaberClashEffect", "LateUpdate"));
     INSTALL_HOOK_OFFSETLESS(logger, SceneManager_Internal_ActiveSceneChanged, il2cpp_utils::FindMethodUnsafe("UnityEngine.SceneManagement", "SceneManager", "Internal_ActiveSceneChanged", 2));
 }
