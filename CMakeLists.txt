@@ -34,4 +34,7 @@ include_directories(.)
 #include_directories($ENV{ANDROID_NDK_HOME}/sysroot/usr/include/arm-linux-androideabi)
 
 file(GLOB SRC src/*.cpp)
+
+link_directories(extern/)
 add_library(particletuner SHARED ${SRC})
+target_link_libraries(particletuner beatsaber-hook_1_2_3 codegen)

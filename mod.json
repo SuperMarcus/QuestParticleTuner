@@ -9,19 +9,8 @@
   "dependencies": [
     {
       "id": "codegen",
-      "version": "^0.7.0"
-    },
-    {
-      "id": "questui",
-      "version": "^0.5.0"
-    },
-    {
-      "id": "custom-types",
-      "version": "^0.5.1"
-    },
-    {
-      "id": "beatsaber-hook",
-      "version": "^1.2.3"
+      "version": "^0.7.2",
+      "downloadIfMissing": "https://cdn.discordapp.com/attachments/769457887415894036/831983629366329414/codegen_0_7_2.qmod"
     }
   ],
   "modFiles": [

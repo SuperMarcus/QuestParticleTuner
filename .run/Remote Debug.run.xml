@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Remote Debug" type="CLion_Remote" version="1" remoteCommand="127.0.0.1:2345" symbolFile="$PROJECT_DIR$/libs/arm64-v8a/libparticletuner.so" sysroot="$USER_HOME$/Library/Android/sdk/ndk/22.0.7026061/toolchains/llvm/prebuilt/darwin-x86_64/sysroot">
+    <debugger kind="GDB" isBundled="true" />
+    <pathMapping remote=":/data/data/com.beatgames.beatsaber/" local="$PROJECT_DIR$/libs/arm64-v8a/" />
+    <method v="2" />
+  </configuration>
+</component>

@@ -28,7 +28,7 @@ DECLARE_CLASS_CODEGEN(ParticleTuner, PTModSettingsViewController, HMUI::ViewCont
 
     DECLARE_METHOD(void, UpdateUIComponents);
 
-    REGISTER_FUNCTION(PTModSettingsViewController,
+    REGISTER_FUNCTION(
         REGISTER_FIELD(sparklesMultInc);
         REGISTER_FIELD(explosionsMultInc);
         REGISTER_FIELD(lifetimeMultInc);
@@ -50,7 +50,7 @@ DECLARE_CLASS_CODEGEN(ParticleTuner, PTPresetData, Il2CppObject,
     DECLARE_INSTANCE_FIELD(PTModSettingsViewController*, parent);
     DECLARE_INSTANCE_FIELD(int, preset);
 
-    REGISTER_FUNCTION(PTPresetData,
+    REGISTER_FUNCTION(
         REGISTER_FIELD(parent);
         REGISTER_FIELD(preset);
     )

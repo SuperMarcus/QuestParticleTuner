@@ -18,7 +18,7 @@
 
 using namespace ParticleTuner;
 
-DEFINE_CLASS(PTScenePSDiscoveryAgent);
+DEFINE_TYPE(PTScenePSDiscoveryAgent);
 
 bool PTScenePSDiscoveryAgent::MoveNext() {
     if (dustPS == nullptr) {

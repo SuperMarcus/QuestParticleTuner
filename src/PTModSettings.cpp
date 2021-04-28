@@ -19,8 +19,8 @@
 
 using namespace ParticleTuner;
 
-DEFINE_CLASS(PTModSettingsViewController);
-DEFINE_CLASS(PTPresetData);
+DEFINE_TYPE(PTModSettingsViewController);
+DEFINE_TYPE(PTPresetData);
 
 static PTPreset presetsRawList[] = {
     PT_PRESET_NONE,

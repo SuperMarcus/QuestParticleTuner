@@ -27,7 +27,7 @@ DECLARE_CLASS_INTERFACES(ParticleTuner, PTScenePSDiscoveryAgent,
 
     DECLARE_METHOD(void, UpdateDustPSSettings);
 
-    REGISTER_FUNCTION(PTScenePSDiscoveryAgent,
+    REGISTER_FUNCTION(
         REGISTER_FIELD(currentOp);
         REGISTER_FIELD(dustPS);
         REGISTER_FIELD(iterations);
