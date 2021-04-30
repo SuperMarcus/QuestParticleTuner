@@ -16,8 +16,7 @@ set(CMAKE_OSX_SYSROOT $ENV{ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86
 set(CMAKE_OSX_DEPLOYMENT_TARGET "")
 
 project(particletuner)
-
-add_compile_definitions(VERSION='"dummy_version"' ID='"particletuner"')
+add_compile_definitions(VERSION="dummy_version" ID="particletuner")
 
 include_directories(include)
 include_directories(extern)
@@ -28,13 +27,12 @@ include_directories(extern/beatsaber-hook/shared)
 include_directories(extern/questui/shared)
 include_directories(extern/modloader/shared)
 include_directories(.)
-#include_directories($ENV{ANDROID_NDK_HOME}/sources/cxx-stl/llvm-libc++/include)
-#include_directories($ENV{ANDROID_NDK_HOME}/sysroot/usr/include)
-#include_directories($ENV{ANDROID_NDK_HOME}/sources/cxx-stl/llvm-libc++abi/include)
-#include_directories($ENV{ANDROID_NDK_HOME}/sysroot/usr/include/arm-linux-androideabi)
 
 file(GLOB SRC src/*.cpp)
 
+# Import libraries
+set(QPM_EXTERN_DIR ${CMAKE_SOURCE_DIR}/extern)
+
 link_directories(extern/)
 add_library(particletuner SHARED ${SRC})
-target_link_libraries(particletuner beatsaber-hook_1_2_3 codegen)
+target_link_libraries(particletuner beatsaber-hook_1_3_3 codegen_0_8_1 custom-types modloader questui)

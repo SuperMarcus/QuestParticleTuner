@@ -11,7 +11,7 @@
   "dependencies": [
     {
       "id": "codegen",
-      "versionRange": "^0.7.2",
+      "versionRange": "^0.8.1",
       "additionalData": {}
     },
     {
@@ -21,7 +21,7 @@
     },
     {
       "id": "questui",
-      "versionRange": "^0.6.8",
+      "versionRange": "^0.6.10",
       "additionalData": {}
     },
     {

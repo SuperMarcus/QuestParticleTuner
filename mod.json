@@ -9,12 +9,16 @@
   "dependencies": [
     {
       "id": "codegen",
-      "version": "^0.7.2",
-      "downloadIfMissing": "https://cdn.discordapp.com/attachments/769457887415894036/831983629366329414/codegen_0_7_2.qmod"
+      "version": "^0.8.1",
+      "downloadIfMissing": "https://cdn.discordapp.com/attachments/769457887415894036/837780420811816987/codegen_0_8_1.qmod"
     }
   ],
   "modFiles": [
     "libparticletuner.so"
   ],
-  "libraryFiles": [ ]
+  "libraryFiles": [
+    "libcustom-types.so",
+    "libquestui.so",
+    "libbeatsaber-hook_1_3_3.so"
+  ]
 }
