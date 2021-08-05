@@ -1,5 +1,11 @@
 #pragma once
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "bugprone-sizeof-expression"
+#pragma ide diagnostic ignored "cert-err58-cpp"
+#pragma ide diagnostic ignored "readability-const-return-type"
+#pragma ide diagnostic ignored "cppcoreguidelines-pro-type-member-init"
+
 #include "beatsaber-hook/shared/utils/utils.h"
 #include "beatsaber-hook/shared/utils/il2cpp-utils.hpp"
 #include "beatsaber-hook/shared/utils/typedefs.h"
@@ -15,26 +21,17 @@
 
 DECLARE_CLASS_INTERFACES(ParticleTuner, PTScenePSDiscoveryAgent,
     "System", "Object", sizeof(Il2CppObject),
-    il2cpp_utils::GetClassFromName("System.Collections", "IEnumerator"),
+    { il2cpp_utils::GetClassFromName("System.Collections", "IEnumerator") },
 
-    DECLARE_INSTANCE_FIELD(Il2CppObject*, currentOp);
-    DECLARE_INSTANCE_FIELD(UnityEngine::ParticleSystem*, dustPS);
-    DECLARE_INSTANCE_FIELD(int, iterations);
+    DECLARE_INSTANCE_FIELD_DEFAULT(Il2CppObject*, currentOp, nullptr);
+    DECLARE_INSTANCE_FIELD_DEFAULT(UnityEngine::ParticleSystem*, dustPS, nullptr);
+    DECLARE_INSTANCE_FIELD_DEFAULT(int, iterations, 0);
 
     DECLARE_OVERRIDE_METHOD(Il2CppObject*, get_Current, il2cpp_utils::FindMethod("System.Collections", "IEnumerator", "get_Current"));
     DECLARE_OVERRIDE_METHOD(bool, MoveNext, il2cpp_utils::FindMethod("System.Collections", "IEnumerator", "MoveNext"));
     DECLARE_OVERRIDE_METHOD(void, Reset, il2cpp_utils::FindMethod("System.Collections", "IEnumerator", "Reset"));
 
-    DECLARE_METHOD(void, UpdateDustPSSettings);
-
-    REGISTER_FUNCTION(
-        REGISTER_FIELD(currentOp);
-        REGISTER_FIELD(dustPS);
-        REGISTER_FIELD(iterations);
-
-        REGISTER_METHOD(MoveNext);
-        REGISTER_METHOD(get_Current);
-        REGISTER_METHOD(Reset);
-        REGISTER_METHOD(UpdateDustPSSettings);
-    )
+    DECLARE_INSTANCE_METHOD(void, UpdateDustPSSettings);
 )
+
+#pragma clang diagnostic pop

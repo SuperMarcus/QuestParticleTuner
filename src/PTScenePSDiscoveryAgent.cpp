@@ -18,7 +18,7 @@
 
 using namespace ParticleTuner;
 
-DEFINE_TYPE(PTScenePSDiscoveryAgent);
+DEFINE_TYPE(::ParticleTuner, PTScenePSDiscoveryAgent); // NOLINT(cert-err58-cpp)
 
 bool PTScenePSDiscoveryAgent::MoveNext() {
     if (dustPS == nullptr) {

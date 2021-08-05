@@ -1,14 +1,17 @@
 #include <algorithm>
 
-#include "color.h"
+#include "UnityEngine/Color32.hpp"
+#include "UnityEngine/Color.hpp"
+
 #include "particletune_private.hpp"
+#include "color.h"
 
 // Modified from Jan Winkler <winkler@cs.uni-bremen.de>'s color conversion code:
 // https://gist.github.com/fairlight1337/4935ae72bcbcc1ba5c72
 
 using namespace std;
 
-void ParticleTuner::hsv2rgb(float fH, float fS, float fV, Color32 &rgb) {
+void ParticleTuner::hsv2rgb(float fH, float fS, float fV, UnityEngine::Color32 &rgb) {
     float fC = fV * fS; // Chroma
     float fHPrime = fmod(fH * 6.0f, 6.0f);
     float fX = fC * (1.0f - fabs(fmod(fHPrime, 2.0f) - 1.0f));
@@ -54,7 +57,7 @@ void ParticleTuner::hsv2rgb(float fH, float fS, float fV, Color32 &rgb) {
     rgb.b = static_cast<uint8_t>(fB * 255.0f);
 }
 
-void ParticleTuner::rgb2hsv(const Color32 &rgb, float &fH, float &fS, float &fV) {
+void ParticleTuner::rgb2hsv(const UnityEngine::Color32 &rgb, float &fH, float &fS, float &fV) {
     auto fR = clamp(static_cast<float>(rgb.r) / 255.0f, 0.0f, 1.0f);
     auto fG = clamp(static_cast<float>(rgb.g) / 255.0f, 0.0f, 1.0f);
     auto fB = clamp(static_cast<float>(rgb.b) / 255.0f, 0.0f, 1.0f);
@@ -87,4 +90,17 @@ void ParticleTuner::rgb2hsv(const Color32 &rgb, float &fH, float &fS, float &fV)
     if(fH < 0) {
         fH = 1.0f + fH;
     }
+}
+
+UnityEngine::Color ParticleTuner::toColor(const UnityEngine::Color32 &in) {
+    return {
+        static_cast<float>(in.r) / 255.0f,
+        static_cast<float>(in.g) / 255.0f,
+        static_cast<float>(in.b) / 255.0f,
+        static_cast<float>(in.a) / 255.0f
+    };
+}
+
+UnityEngine::Color32 ParticleTuner::toColor32(UnityEngine::Color in) {
+    return { static_cast<uint8_t>(in.r * 0xff), static_cast<uint8_t>(in.g * 0xff), static_cast<uint8_t>(in.b * 0xff) };
 }
