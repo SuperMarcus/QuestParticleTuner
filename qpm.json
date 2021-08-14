@@ -21,12 +21,12 @@
     },
     {
       "id": "questui",
-      "versionRange": "^0.10.1",
+      "versionRange": "^0.10.2",
       "additionalData": {}
     },
     {
       "id": "beatsaber-hook",
-      "versionRange": "^2.2.4",
+      "versionRange": "^2.2.5",
       "additionalData": {
         "extraFiles": [
           "src/inline-hook"
