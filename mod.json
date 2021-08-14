@@ -1,24 +1,17 @@
 {
-  "_QPVersion": "0.1.0",
+  "_QPVersion": "0.1.1",
   "name": "Particles",
   "author": "Marcus Zhou",
   "packageId": "com.beatgames.beatsaber",
   "packageVersion": "1.14.0",
   "id": "particletuner",
   "version": "1.2.0",
-  "dependencies": [
-    {
-      "id": "codegen",
-      "version": "^0.8.1",
-      "downloadIfMissing": "https://cdn.discordapp.com/attachments/769457887415894036/837780420811816987/codegen_0_8_1.qmod"
-    }
-  ],
+  "coverImage": "cover.gif",
+  "dependencies": [],
   "modFiles": [
     "libparticletuner.so"
   ],
   "libraryFiles": [
-    "libcustom-types.so",
-    "libquestui.so",
-    "libbeatsaber-hook_1_3_3.so"
+    "libbeatsaber-hook_2_2_5.so"
   ]
 }
