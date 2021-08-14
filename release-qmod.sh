@@ -4,8 +4,8 @@
 
 PKG_NAME=ParticleTuner.qmod
 
-if [[ "$NDK_DEBUG" = 1 ]]; then
-  PKG_NAME=ParticleTuner.Debug.qmod
+if [[ ! -z "$CI_BUILD_TARGET" ]]; then
+  PKG_NAME="ParticleTuner.${CI_BUILD_TARGET}.qmod"
 fi
 
 rm -f "$PKG_NAME"

@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        debug: [1, 0]
+        target: ["Release", "Debug"]
 
     steps:
     - uses: actions/checkout@v2
@@ -16,7 +16,7 @@ jobs:
       id: setup-ndk
       uses: nttld/setup-ndk@v1.0.3
       with:
-        ndk-version: r23
+        ndk-version: r22b
 
     # Copied from sc2ad :)
     - name: Get QPM
@@ -50,13 +50,20 @@ jobs:
         ls -la ${GITHUB_WORKSPACE}/extern/
         ls -la QPM_Temp
 
-    - name: Build Mod
+    - name: Build for ${{ matrix.target }}
       run: ./build.sh
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-        NDK_DEBUG: ${{ matrix.debug }}
-    - name: Package Mod
+        CI_BUILD_TARGET: ${{ matrix.target }}
+    - name: Package for ${{ matrix.target }}
       run: ./release-qmod.sh
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-        NDK_DEBUG: ${{ matrix.debug }}
+        CI_BUILD_TARGET: ${{ matrix.target }}
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ParticleTuner.${{ matrix.target }}
+        path: |
+          *.qmod
+        if-no-files-found: error
