@@ -124,7 +124,7 @@ void PTModSettingsOnReduceDustParticlesToggle(PTModSettingsViewController* paren
 //}
 
 void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
-    if (firstActivation && addedToHierarchy) {
+    if (firstActivation) {
         getLogger().info("Adding mod settings UI components...");
 
         auto sectionBackgroundName = il2cpp_utils::createcsstr("round-rect-panel");
@@ -296,7 +296,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
                 presetContainerLayout->get_rectTransform(),
                 preset->name,
                 "OkButton",
-                std::bind(PTModSettingsApplyPreset, presetData)
+                [presetData] { return PTModSettingsApplyPreset(presetData); }
             );
         }
 

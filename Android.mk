@@ -50,7 +50,7 @@ LOCAL_SHARED_LIBRARIES += custom-types
 LOCAL_SHARED_LIBRARIES += questui
 LOCAL_SHARED_LIBRARIES += codegen_0_12_5
 LOCAL_LDLIBS += -llog
-LOCAL_CFLAGS += -DVERSION='"1.2.0"' -DID='"particletuner"' -isystem 'extern/libil2cpp/il2cpp/libil2cpp'
+LOCAL_CFLAGS += -DVERSION='"1.3.0"' -DID='"particletuner"' -isystem 'extern/libil2cpp/il2cpp/libil2cpp'
 LOCAL_CPPFLAGS += -std=c++2a -frtti
 LOCAL_C_INCLUDES += ./include ./src ./shared ./extern ./extern/beatsaber-hook/shared ./extern/modloader/shared ./extern/questui/shared ./extern/custom-types/shared ./extern/codegen/include
 LOCAL_CPP_FEATURES += exceptions

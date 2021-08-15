@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "[!] BMBFmod format has been deprecated! Use ./release-qmod.sh instead."
+
 rm -f ParticleTuner.zip
 zip -j ParticleTuner.zip bmbfmod.json cover.gif
 find ./libs/arm64-v8a \
