@@ -74,7 +74,7 @@ MAKE_HOOK_MATCH(NoteCutParticlesEffect_SpawnParticles, &GlobalNamespace::NoteCut
         auto seed = std::chrono::system_clock::now().time_since_epoch().count();
         std::default_random_engine generator (seed);
         auto randomHue = std::generate_canonical<float, std::numeric_limits<double>::digits>(generator);
-        hsv2rgb(randomHue, 1.0f, 0.5f, color);
+        hsv2rgb(randomHue, 1.0f, 1.0f, color);
     }
 
 //    getLogger().debug("before: %d, %d, %d, %d", color.r, color.g, color.b, color.a);
