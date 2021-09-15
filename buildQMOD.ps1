@@ -6,7 +6,7 @@ if (-not ($PSVersionTable.PSEdition -eq "Core")) {
     $buildScript += ".cmd"
 }
 
-$ArchiveName = "particletuner_v1.3.1.qmod"
+$ArchiveName = "particletuner.v1.3.1.qmod"
 $TempArchiveName = "particletuner_qmodtemp.zip"
 
 & $buildScript NDK_PROJECT_PATH=$PSScriptRoot APP_BUILD_SCRIPT=$PSScriptRoot/Android.mk NDK_APPLICATION_MK=$PSScriptRoot/Application.mk
