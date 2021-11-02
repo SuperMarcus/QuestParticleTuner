@@ -20,111 +20,133 @@
 using namespace ParticleTuner;
 
 DEFINE_TYPE(::ParticleTuner, PTModSettingsViewController); // NOLINT(cert-err58-cpp)
-DEFINE_TYPE(::ParticleTuner, PTPresetData); // NOLINT(cert-err58-cpp)
+DEFINE_TYPE(::ParticleTuner, PTPresetData);                // NOLINT(cert-err58-cpp)
 
 static PTPreset presetsRawList[] = {
     PT_PRESET_NONE,
     PT_PRESET_NORMAL,
     PT_PRESET_FANCY,
-    PT_PRESET_TOO_MUCH
-};
+    PT_PRESET_TOO_MUCH};
 
-void PTModSettingsApplyPreset(PTPresetData * presetData) {
-    auto* vc = presetData->parent;
-    auto& preset = presetsRawList[presetData->preset];
-    auto& currentConfig = getConfig();
+void PTModSettingsApplyPreset(PTPresetData *presetData)
+{
+    auto *vc = presetData->parent;
+    auto &preset = presetsRawList[presetData->preset];
+    auto &currentConfig = getConfig();
 
-    if (vc) {
+    if (vc)
+    {
         getLogger().info("Selecting preset %s", preset.name.c_str());
         currentConfig.sparkleMultiplier = preset.sparkleMultiplier;
         currentConfig.explosionMultiplier = preset.explosionMultiplier;
         currentConfig.lifetimeMultiplier = preset.lifetimeMultiplier;
         currentConfig.particleOpacity = preset.particleOpacity;
+
         currentConfig.reduceCoreParticles = preset.reduceCoreParticles;
         currentConfig.reduceClashParticles = preset.reduceClashParticles;
         currentConfig.reduceDustParticles = preset.reduceDustParticles;
-        currentConfig.boostSaturation = preset.boostSaturation;
         currentConfig.rainbowParticles = preset.rainbowParticles;
+
         vc->UpdateUIComponents();
     }
 }
 
-void PTModSettingsOnSparkleMultChange(PTModSettingsViewController* parent, float newValue) {
-    if (newValue < 0) {
+void PTModSettingsOnSparkleMultChange(PTModSettingsViewController *parent, float newValue)
+{
+    if (newValue < 0)
+    {
         parent->sparklesMultInc->CurrentValue = 0.0;
         parent->sparklesMultInc->UpdateValue();
-    } else {
+    }
+    else
+    {
         getConfig().sparkleMultiplier = newValue;
         getLogger().info("Set sparkleMultiplier=%f", newValue);
     }
 }
 
-void PTModSettingsOnExplosionMultChange(PTModSettingsViewController* parent, float newValue) {
-    if (newValue < 0) {
+void PTModSettingsOnExplosionMultChange(PTModSettingsViewController *parent, float newValue)
+{
+    if (newValue < 0)
+    {
         parent->explosionsMultInc->CurrentValue = 0.0;
         parent->explosionsMultInc->UpdateValue();
-    } else {
+    }
+    else
+    {
         getConfig().explosionMultiplier = newValue;
         getLogger().info("Set explosionMultiplier=%f", newValue);
     }
 }
 
-void PTModSettingsOnLifetimeMultChange(PTModSettingsViewController* parent, float newValue) {
-    if (newValue < 0) {
+void PTModSettingsOnLifetimeMultChange(PTModSettingsViewController *parent, float newValue)
+{
+    if (newValue < 0)
+    {
         parent->lifetimeMultInc->CurrentValue = 0.0;
         parent->lifetimeMultInc->UpdateValue();
-    } else {
+    }
+    else
+    {
         getConfig().lifetimeMultiplier = newValue;
         getLogger().info("Set lifetimeMultiplier=%f", newValue);
     }
 }
 
-void PTModSettingsOnParticleOpacityChange(PTModSettingsViewController* parent, float newValue) {
-    if (newValue < 0.0f) {
+void PTModSettingsOnParticleOpacityChange(PTModSettingsViewController *parent, float newValue)
+{
+    if (newValue < 0.0f)
+    {
         parent->particleOpacityInc->CurrentValue = 0.0f;
         parent->particleOpacityInc->UpdateValue();
-    } else if (newValue > 1.0f) {
+    }
+    else if (newValue > 1.0f)
+    {
         parent->particleOpacityInc->CurrentValue = 1.0f;
         parent->particleOpacityInc->UpdateValue();
-    } else {
+    }
+    else
+    {
         getConfig().particleOpacity = newValue;
         getLogger().info("Set particleOpacity=%f", newValue);
     }
 }
 
-void PTModSettingsOnReduceCoreParticlesToggle(PTModSettingsViewController* parent, bool newValue) {
+void PTModSettingsOnReduceCoreParticlesToggle(PTModSettingsViewController *parent, bool newValue)
+{
     getConfig().reduceCoreParticles = newValue;
     getLogger().info("Set reduceCoreParticles=%d", newValue);
 }
 
-void PTModSettingsOnRainbowToggle(PTModSettingsViewController* parent, bool newValue) {
+void PTModSettingsOnRainbowToggle(PTModSettingsViewController *parent, bool newValue)
+{
     getConfig().rainbowParticles = newValue;
     getLogger().info("Set rainbowParticles=%d", newValue);
 }
 
-void PTModSettingsOnReduceClashParticlesToggle(PTModSettingsViewController* parent, bool newValue) {
+void PTModSettingsOnReduceClashParticlesToggle(PTModSettingsViewController *parent, bool newValue)
+{
     getConfig().reduceClashParticles = newValue;
     getLogger().info("Set reduceClashParticles=%d", newValue);
 }
 
-void PTModSettingsOnReduceDustParticlesToggle(PTModSettingsViewController* parent, bool newValue) {
+void PTModSettingsOnReduceDustParticlesToggle(PTModSettingsViewController *parent, bool newValue)
+{
     getConfig().reduceDustParticles = newValue;
 
-    auto dustPSAgent = reinterpret_cast<PTScenePSDiscoveryAgent*>(parent->dustPSAgent);
-    if (dustPSAgent) {
+    auto dustPSAgent = reinterpret_cast<PTScenePSDiscoveryAgent *>(parent->dustPSAgent);
+    if (dustPSAgent)
+    {
         dustPSAgent->UpdateDustPSSettings();
     }
 
     getLogger().info("Set reduceDustParticles=%d", newValue);
 }
 
-//void PTModSettingsOnBoostSaturationToggle(PTModSettingsViewController* parent, bool newValue) {
-//    getConfig().boostSaturation = newValue;
-//    getLogger().info("Set boostSaturation=%d", newValue);
-//}
-
-void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
-    if (firstActivation) {
+void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
+{
+    if (firstActivation)
+    {
         getLogger().info("Adding mod settings UI components...");
 
         auto sectionBackgroundName = il2cpp_utils::createcsstr("round-rect-panel");
@@ -140,11 +162,11 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
 
         auto leftTogglesLayout = QuestUI::BeatSaberUI::CreateVerticalLayoutGroup(sectionContainerLayout->get_rectTransform());
         leftTogglesLayout->get_gameObject()
-            ->AddComponent<QuestUI::Backgroundable*>()
+            ->AddComponent<QuestUI::Backgroundable *>()
             ->ApplyBackground(sectionBackgroundName);
         leftTogglesLayout->set_padding(sectionPadding);
-        
-        auto leftTogglesLayoutElement = leftTogglesLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
+
+        auto leftTogglesLayoutElement = leftTogglesLayout->GetComponent<UnityEngine::UI::LayoutElement *>();
         // leftTogglesLayoutElement->set_flexibleHeight(0);
         // leftTogglesLayoutElement->set_preferredHeight(45);
         leftTogglesLayoutElement->set_preferredWidth(60);
@@ -164,11 +186,11 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         // Layout - Center Multipliers
         auto centerSectionLayout = QuestUI::BeatSaberUI::CreateVerticalLayoutGroup(centerContainerLayout->get_rectTransform());
         centerSectionLayout->get_gameObject()
-            ->AddComponent<QuestUI::Backgroundable*>()
+            ->AddComponent<QuestUI::Backgroundable *>()
             ->ApplyBackground(sectionBackgroundName);
         centerSectionLayout->set_padding(sectionPadding);
         centerSectionLayout->set_spacing(4);
-        auto centerSectionLayoutElement = centerSectionLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
+        auto centerSectionLayoutElement = centerSectionLayout->GetComponent<UnityEngine::UI::LayoutElement *>();
         centerSectionLayoutElement->set_preferredWidth(110);
         // centerSectionLayoutElement->set_preferredHeight(60);
 
@@ -177,7 +199,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         presetContainerLayout->set_spacing(4);
         presetContainerLayout->set_padding(UnityEngine::RectOffset::New_ctor(2, 2, 0, 0));
         auto presetContainerLayoutElement = presetContainerLayout
-            ->GetComponent<UnityEngine::UI::LayoutElement*>();
+                                                ->GetComponent<UnityEngine::UI::LayoutElement *>();
         presetContainerLayoutElement->set_preferredHeight(8);
         // presetContainerLayoutElement->set_preferredWidth(100);
         // presetContainerLayoutElement->set_flexibleWidth(0);
@@ -191,7 +213,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         // auto rightSectionLayoutElement = rightSectionLayout->GetComponent<UnityEngine::UI::LayoutElement*>();
         // rightSectionLayoutElement->set_preferredWidth(60);
         // rightSectionLayoutElement->set_preferredHeight(45);
-        
+
         // Delegates
         auto sparkleChangeDelegate = std::bind(PTModSettingsOnSparkleMultChange, this, std::placeholders::_1);
         auto explosionChangeDelegate = std::bind(PTModSettingsOnExplosionMultChange, this, std::placeholders::_1);
@@ -200,10 +222,10 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
         auto reduceCoreParticlesToggleDelegate = std::bind(PTModSettingsOnReduceCoreParticlesToggle, this, std::placeholders::_1);
         auto reduceClashParticlesToggleDelegate = std::bind(PTModSettingsOnReduceClashParticlesToggle, this, std::placeholders::_1);
         auto reduceDustParticlesToggleDelegate = std::bind(PTModSettingsOnReduceDustParticlesToggle, this, std::placeholders::_1);
-//        auto boostSaturationToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
-//            classof(UnityEngine::Events::UnityAction_1<bool>*),
-//            this, PTModSettingsOnBoostSaturationToggle
-//        );
+        //        auto boostSaturationToggleDelegate = il2cpp_utils::MakeDelegate<UnityEngine::Events::UnityAction_1<bool>*>(
+        //            classof(UnityEngine::Events::UnityAction_1<bool>*),
+        //            this, PTModSettingsOnBoostSaturationToggle
+        //        );
         auto rainbowToggleDelegate = std::bind(PTModSettingsOnRainbowToggle, this, std::placeholders::_1);
 
         auto &currentConfig = getConfig();
@@ -213,40 +235,28 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             leftTogglesLayout->get_rectTransform(),
             "Reduce Core Particles",
             currentConfig.reduceCoreParticles,
-            reduceCoreParticlesToggleDelegate
-        );
+            reduceCoreParticlesToggleDelegate);
         QuestUI::BeatSaberUI::AddHoverHint(reduceCoreParticlesToggle->get_gameObject(), "Remove the core particle effects from slicing a block.");
 
         reduceClashParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
             leftTogglesLayout->get_rectTransform(),
             "Reduce Clash Effects",
             currentConfig.reduceClashParticles,
-            reduceClashParticlesToggleDelegate
-        );
+            reduceClashParticlesToggleDelegate);
         QuestUI::BeatSaberUI::AddHoverHint(reduceClashParticlesToggle->get_gameObject(), "Remove saber clash effects.");
 
         reduceDustParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
             leftTogglesLayout->get_rectTransform(),
             "Reduce Dust",
             currentConfig.reduceDustParticles,
-            reduceDustParticlesToggleDelegate
-        );
+            reduceDustParticlesToggleDelegate);
         QuestUI::BeatSaberUI::AddHoverHint(reduceDustParticlesToggle->get_gameObject(), "Remove the particles floating in the air.");
-
-//        boostSaturationToggle = QuestUI::BeatSaberUI::CreateToggle(
-//            leftTogglesLayout->get_rectTransform(),
-//            "Boost Saturation",
-//            currentConfig.boostSaturation,
-//            boostSaturationToggleDelegate
-//        );
-//        QuestUI::BeatSaberUI::AddHoverHint(boostSaturationToggle->get_gameObject(), "Make the note slash particle more vibrant.");
 
         rainbowParticlesToggle = QuestUI::BeatSaberUI::CreateToggle(
             leftTogglesLayout->get_rectTransform(),
             "Rainbow Particles",
             currentConfig.rainbowParticles,
-            rainbowToggleDelegate
-        );
+            rainbowToggleDelegate);
         QuestUI::BeatSaberUI::AddHoverHint(rainbowParticlesToggle->get_gameObject(), "Make slash particles rainbow!");
 
         // Center Panel Configs
@@ -255,8 +265,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             "Sparkles Multiplier",
             1, 0.2,
             currentConfig.sparkleMultiplier,
-            sparkleChangeDelegate
-        );
+            sparkleChangeDelegate);
         QuestUI::BeatSaberUI::AddHoverHint(sparklesMultInc->get_gameObject(), "Tune the amount of sparkles generated after a slash. Set to 0 to disable sparkles.");
 
         explosionsMultInc = QuestUI::BeatSaberUI::CreateIncrementSetting(
@@ -264,8 +273,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             "Explosions Multiplier",
             1, 0.2,
             currentConfig.explosionMultiplier,
-            explosionChangeDelegate
-        );
+            explosionChangeDelegate);
         QuestUI::BeatSaberUI::AddHoverHint(explosionsMultInc->get_gameObject(), "Tune the amount of explosions generated after a slash. Set to 0 to disable explosions.");
 
         lifetimeMultInc = QuestUI::BeatSaberUI::CreateIncrementSetting(
@@ -273,8 +281,7 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             "Lifetime Multiplier",
             1, 0.2,
             currentConfig.lifetimeMultiplier,
-            lifetimeChangeDelegate
-        );
+            lifetimeChangeDelegate);
         QuestUI::BeatSaberUI::AddHoverHint(lifetimeMultInc->get_gameObject(), "Tune the lifetime of particles. Lifetime determines how long the particles stay on the screen.");
 
         particleOpacityInc = QuestUI::BeatSaberUI::CreateIncrementSetting(
@@ -282,13 +289,13 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
             "Particle Opacity",
             1, 0.1,
             currentConfig.particleOpacity,
-            particleOpacityChangeDelegate
-        );
+            particleOpacityChangeDelegate);
         QuestUI::BeatSaberUI::AddHoverHint(particleOpacityInc->get_gameObject(), "Adjust the opacity of the slash particle.");
 
-        for (int i = 0; i < PT_NUMBER_OF_PRESETS; ++i) {
+        for (int i = 0; i < PT_NUMBER_OF_PRESETS; ++i)
+        {
             auto *preset = &presetsRawList[i];
-            auto *presetData = CRASH_UNLESS(il2cpp_utils::New<PTPresetData*>());
+            auto *presetData = CRASH_UNLESS(il2cpp_utils::New<PTPresetData *>());
             presetData->preset = i;
             presetData->parent = this;
 
@@ -296,25 +303,27 @@ void PTModSettingsViewController::DidActivate(bool firstActivation, bool addedTo
                 presetContainerLayout->get_rectTransform(),
                 preset->name,
                 "OkButton",
-                [presetData] { return PTModSettingsApplyPreset(presetData); }
-            );
+                [presetData]
+                { return PTModSettingsApplyPreset(presetData); });
         }
 
         // Start private DustPS discovery agent
-        auto privateAgent = THROW_UNLESS(il2cpp_utils::New<PTScenePSDiscoveryAgent*>());
-        dustPSAgent = reinterpret_cast<Il2CppObject*>(privateAgent);
+        auto privateAgent = THROW_UNLESS(il2cpp_utils::New<PTScenePSDiscoveryAgent *>());
+        dustPSAgent = reinterpret_cast<Il2CppObject *>(privateAgent);
         GlobalNamespace::SharedCoroutineStarter::get_instance()
-            ->StartCoroutine(reinterpret_cast<System::Collections::IEnumerator*>(privateAgent));
+            ->StartCoroutine(reinterpret_cast<System::Collections::IEnumerator *>(privateAgent));
     }
 }
 
-void PTModSettingsViewController::DidDeactivate(bool removedFromHierarchy, bool systemScreenDisabling) {
+void PTModSettingsViewController::DidDeactivate(bool removedFromHierarchy, bool systemScreenDisabling)
+{
     getLogger().info("Deactivated PTModSettingsViewController.");
     getConfig().store();
 }
 
-void PTModSettingsViewController::UpdateUIComponents() {
-    auto& currentConfig = getConfig();
+void PTModSettingsViewController::UpdateUIComponents()
+{
+    auto &currentConfig = getConfig();
 
     sparklesMultInc->CurrentValue = currentConfig.sparkleMultiplier;
     explosionsMultInc->CurrentValue = currentConfig.explosionMultiplier;
@@ -330,10 +339,11 @@ void PTModSettingsViewController::UpdateUIComponents() {
     reduceClashParticlesToggle->set_isOn(currentConfig.reduceClashParticles);
     reduceCoreParticlesToggle->set_isOn(currentConfig.reduceCoreParticles);
     reduceDustParticlesToggle->set_isOn(currentConfig.reduceDustParticles);
-//    boostSaturationToggle->set_isOn(currentConfig.boostSaturation);
+    //    boostSaturationToggle->set_isOn(currentConfig.boostSaturation);
 }
 
-void PTRegisterUI(ModInfo& modInfo) {
+void PTRegisterUI(ModInfo &modInfo)
+{
     getLogger().info("Registering ParticleTuner UI...");
-    QuestUI::Register::RegisterModSettingsViewController<PTModSettingsViewController*>(modInfo, "Particle Tuner");
+    QuestUI::Register::RegisterModSettingsViewController<PTModSettingsViewController *>(modInfo, "Particle Tuner");
 }
