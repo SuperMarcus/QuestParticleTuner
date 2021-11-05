@@ -5,8 +5,7 @@ libs/
 obj/
 Android.mk.backup
 qpm.shared.json
-ParticleTuner.zip
 .idea
 cmake-build-debug
-ParticleTuner.qmod
 ParticleTuner.*.qmod
+ndkpath.txt
