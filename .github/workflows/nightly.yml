@@ -97,7 +97,7 @@ jobs:
     # get the library name, by checking against the module ID
     - name: Get Library Name
       id: libname
-      shell: powershell
+      shell: pwsh
       run: |
         $mod = "./mod.json"
         $modJson = Get-Content $mod -Raw | ConvertFrom-Json
