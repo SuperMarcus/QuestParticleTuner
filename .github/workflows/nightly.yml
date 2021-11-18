@@ -12,11 +12,6 @@ jobs:
     # building a mod consists of a few steps
     steps:
 
-    # Step added for workflow debugging 
-    - name: List Pre Build
-      run: |
-        ls -la ${GITHUB_WORKSPACE}/
-
     # Downloads and installs Android NDK 
     - uses: actions/checkout@v2
       name: Checkout NDK
@@ -77,6 +72,12 @@ jobs:
         ls -la QPM_Temp
 
 
+    # Step added for workflow debugging 
+    - name: List Pre Build
+      run: |
+        ls -la ${GITHUB_WORKSPACE}/
+
+
     # Creates the release and debug library binary files
     - name: Build Binary
       shell: pwsh
@@ -115,7 +116,7 @@ jobs:
       run: |
         $mod = "./mod.json"
         $modJson = Get-Content $mod -Raw | ConvertFrom-Json
-        $qmodname = $modJson.id.ToLower() + "-v" + $modJson.version + ".qmod"
+        $qmodname = $modJson.id + "-v" + $modJson.version + ".qmod"
         echo "::set-output name=NAME::$qmodname"
 
 
