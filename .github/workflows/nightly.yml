@@ -12,20 +12,12 @@ jobs:
     # building a mod consists of a few steps
     steps:
 
-    # Downloads and installs NDK 
+    # Downloads and installs Android NDK 
     - uses: actions/checkout@v2
       name: Checkout NDK
       with:
         submodules: recursive
         lfs: true
-
-
-    # # Downloads and installs NDK 
-    # - name: Setup NDK
-    #   id: setup-ndk
-    #   uses: nttld/setup-ndk@v1.0.3
-    #   with:
-    #     ndk-version: r22b
 
 
     # create the ndkpath.txt file needed in our own compile scripts
@@ -81,21 +73,29 @@ jobs:
 
 
     # Creates the release and debug library binary files
-    - name: Build
+    - name: Build Binary
       run: |
         cd ${GITHUB_WORKSPACE}
         pwsh -Command ./build.ps1
 
 
     # Creates the QMOD package release file
-    - name: Create Qmod package
+    - name: Create QMOD Package
       run: |
         cd ${GITHUB_WORKSPACE}
         pwsh -Command ./buildQMOD.ps1
 
 
+    # Step added for workflow debugging 
+    - name: List Post Build
+      run: |
+        ls -la ${GITHUB_WORKSPACE}/
+        ls -la ${GITHUB_WORKSPACE}/libs/arm64-v8a/
+        ls -la ${GITHUB_WORKSPACE}/obj/local/arm64-v8a/
+
+
     # get the library name, by checking against the module ID
-    - name: Get Library Name
+    - name: Get Library Filename
       id: libname
       shell: pwsh
       run: |
@@ -106,7 +106,7 @@ jobs:
       
 
     # get the qmod name, by checking against the qmod file
-    - name: Get LibraQMOD package Name
+    - name: Get QMOD Package Filename
       id: qmodname
       run: |
         cd ${GITHUB_WORKSPACE}
@@ -116,21 +116,21 @@ jobs:
     
 
     #uploads the normal .so as artifact
-    - name: Upload release lib artifact
+    - name: Upload Release Lib Artifact
       uses: actions/upload-artifact@v2
       with:
         name: ${{ steps.libname.outputs.NAME }}
-        path: ./libs/arm64-v8a/${{ steps.libname.outputs.NAME }}
+        path: ${GITHUB_WORKSPACE}/libs/arm64-v8a/${{ steps.libname.outputs.NAME }}
         # if not found error obviously
         if-no-files-found: error
 
 
     #uploads the debug .so as artifact
-    - name: Upload debug artifact
+    - name: Upload Debug Artifact
       uses: actions/upload-artifact@v2
       with:
         name: debug_${{ steps.libname.outputs.NAME }}
-        path: ./obj/local/arm64-v8a/${{ steps.libname.outputs.NAME }}
+        path: ${GITHUB_WORKSPACE}/obj/local/arm64-v8a/${{ steps.libname.outputs.NAME }}
         # if not found error obviously
         if-no-files-found: error
 
@@ -140,6 +140,6 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ steps.qmodname.outputs.NAME }}
-        path: ./${{ steps.qmodname.outputs.NAME }}
+        path: ${GITHUB_WORKSPACE}/${{ steps.qmodname.outputs.NAME }}
         # if not found error obviously
         if-no-files-found: error
