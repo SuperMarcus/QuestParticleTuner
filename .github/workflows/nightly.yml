@@ -101,12 +101,12 @@ jobs:
       run: |
         $mod = "./mod.json"
         $modJson = Get-Content $mod -Raw | ConvertFrom-Json
-        $libname=$modJson.id.ToLower()
+        $libname=$modJson.id.ToLower() + ".so"
         Write-Output "::set-output name=NAME::$libname"
       
 
     # get the qmod name, by checking against the qmod file
-    - name: Get Library Name
+    - name: Get LibraQMOD package Name
       id: qmodname
       run: |
         cd ${GITHUB_WORKSPACE}
