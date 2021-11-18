@@ -102,7 +102,7 @@ jobs:
         $mod = "./mod.json"
         $modJson = Get-Content $mod -Raw | ConvertFrom-Json
         $libname=$modJson.id.ToLower()
-        echo "::set-output name=NAME::$libname"
+        Write-Output "::set-output name=NAME::$libname"
       
 
     # get the qmod name, by checking against the qmod file
