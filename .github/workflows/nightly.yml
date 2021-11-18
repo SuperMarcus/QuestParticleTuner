@@ -12,6 +12,11 @@ jobs:
     # building a mod consists of a few steps
     steps:
 
+    # Step added for workflow debugging 
+    - name: List Pre Build
+      run: |
+        ls -la ${GITHUB_WORKSPACE}/
+
     # Downloads and installs Android NDK 
     - uses: actions/checkout@v2
       name: Checkout NDK
@@ -74,16 +79,14 @@ jobs:
 
     # Creates the release and debug library binary files
     - name: Build Binary
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        pwsh -Command ./build.ps1
+      shell: pwsh
+      run: ./build.ps1
 
 
     # Creates the QMOD package release file
     - name: Create QMOD Package
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        pwsh -Command ./buildQMOD.ps1
+      shell: pwsh
+      run: ./buildQMOD.ps1
 
 
     # Step added for workflow debugging 
@@ -94,43 +97,44 @@ jobs:
         ls -la ${GITHUB_WORKSPACE}/obj/local/arm64-v8a/
 
 
-    # get the library name, by checking against the module ID
+    # get the library name from mod.json
     - name: Get Library Filename
       id: libname
       shell: pwsh
       run: |
         $mod = "./mod.json"
         $modJson = Get-Content $mod -Raw | ConvertFrom-Json
-        $libname=$modJson.id.ToLower() + ".so"
-        Write-Output "::set-output name=NAME::$libname"
+        $libname = "lib" + $modJson.id.ToLower() + ".so"
+        echo "::set-output name=NAME::$libname"
       
 
-    # get the qmod name, by checking against the qmod file
+    # get the qmod package name mod.json
     - name: Get QMOD Package Filename
       id: qmodname
+      shell: pwsh
       run: |
-        cd ${GITHUB_WORKSPACE}
-        pattern="${module_id}*.qmod"
-        files=( $pattern )
-        echo ::set-output name=NAME::"${files[0]}"
-    
+        $mod = "./mod.json"
+        $modJson = Get-Content $mod -Raw | ConvertFrom-Json
+        $qmodname = $modJson.id.ToLower() + "-v" + $modJson.version + ".qmod"
+        echo "::set-output name=NAME::$qmodname"
 
-    #uploads the normal .so as artifact
+
+    #uploads the normal .so binary as artifact
     - name: Upload Release Lib Artifact
       uses: actions/upload-artifact@v2
       with:
         name: ${{ steps.libname.outputs.NAME }}
-        path: ${GITHUB_WORKSPACE}/libs/arm64-v8a/${{ steps.libname.outputs.NAME }}
+        path: ./libs/arm64-v8a/${{ steps.libname.outputs.NAME }}
         # if not found error obviously
         if-no-files-found: error
 
 
-    #uploads the debug .so as artifact
+    #uploads the debug .so binary as artifact
     - name: Upload Debug Artifact
       uses: actions/upload-artifact@v2
       with:
         name: debug_${{ steps.libname.outputs.NAME }}
-        path: ${GITHUB_WORKSPACE}/obj/local/arm64-v8a/${{ steps.libname.outputs.NAME }}
+        path: ./obj/local/arm64-v8a/${{ steps.libname.outputs.NAME }}
         # if not found error obviously
         if-no-files-found: error
 
@@ -140,6 +144,6 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ steps.qmodname.outputs.NAME }}
-        path: ${GITHUB_WORKSPACE}/${{ steps.qmodname.outputs.NAME }}
+        path: ./${{ steps.qmodname.outputs.NAME }}
         # if not found error obviously
         if-no-files-found: error
