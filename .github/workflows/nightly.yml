@@ -1,24 +1,33 @@
 name: Nightly build
 on: [ push, pull_request ]
 
+# set env (global) variables
+env:
+    ndkname: android-ndk-r22
+
 jobs:
   build:
+    # We will use this OS
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target: ["Release", "Debug"]
-
+    # building a mod consists of a few steps
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Setup NDK
-      id: setup-ndk
-      uses: nttld/setup-ndk@v1.0.3
-      with:
-        ndk-version: r22b
 
-    # Copied from sc2ad :)
+    # Downloads and installs Android NDK 
+    - uses: actions/checkout@v2
+      name: Checkout NDK
+      with:
+        submodules: recursive
+        lfs: true
+
+
+    # create the ndkpath.txt file needed in our own compile scripts
+    - name: Create ndkpath.txt
+      run: |
+        echo "$ANDROID_NDK_LATEST_HOME" > ${GITHUB_WORKSPACE}/ndkpath.txt
+        cat ${GITHUB_WORKSPACE}/ndkpath.txt
+
+
+    # Downloads QPM package for Beat Saber for Quest Development
     - name: Get QPM
       uses: dawidd6/action-download-artifact@v2
       with:
@@ -27,10 +36,16 @@ jobs:
         name: QPM-ubuntu-x64
         path: QPM
         repo: sc2ad/QuestPackageManager
+
+
+    # Collect dependencies and print them to console
     - name: QPM Collect
       run: |
         chmod +x ./QPM/QPM
         ./QPM/QPM collect
+
+
+    # Accelerates QPM restore
     - name: QPM Dependencies Cache
       id: cache-qpm-deps
       uses: actions/cache@v2
@@ -43,27 +58,93 @@ jobs:
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
+
+
+    # Restore and resolve all dependencies from the package
     - name: QPM Restore
       run: ./QPM/QPM restore
+
+
+    # Step added for workflow debugging 
     - name: List Post Restore
       run: |
         ls -la ${GITHUB_WORKSPACE}/extern/
         ls -la QPM_Temp
 
-    - name: Build for ${{ matrix.target }}
-      run: ./build.sh
-      env:
-        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-        CI_BUILD_TARGET: ${{ matrix.target }}
-    - name: Package for ${{ matrix.target }}
-      run: ./release-qmod.sh
-      env:
-        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-        CI_BUILD_TARGET: ${{ matrix.target }}
-    - name: Upload Artifacts
+
+    # Step added for workflow debugging 
+    - name: List Pre Build
+      run: |
+        ls -la ${GITHUB_WORKSPACE}/
+
+
+    # Creates the release and debug library binary files
+    - name: Build Binary
+      shell: pwsh
+      run: ./build.ps1
+
+
+    # Creates the QMOD package release file
+    - name: Create QMOD Package
+      shell: pwsh
+      run: ./buildQMOD.ps1
+
+
+    # Step added for workflow debugging 
+    - name: List Post Build
+      run: |
+        ls -la ${GITHUB_WORKSPACE}/
+        ls -la ${GITHUB_WORKSPACE}/libs/arm64-v8a/
+        ls -la ${GITHUB_WORKSPACE}/obj/local/arm64-v8a/
+
+
+    # get the library name from mod.json
+    - name: Get Library Filename
+      id: libname
+      shell: pwsh
+      run: |
+        $mod = "./mod.json"
+        $modJson = Get-Content $mod -Raw | ConvertFrom-Json
+        $libname = "lib" + $modJson.id.ToLower() + ".so"
+        echo "::set-output name=NAME::$libname"
+      
+
+    # get the qmod package name mod.json
+    - name: Get QMOD Package Filename
+      id: qmodname
+      shell: pwsh
+      run: |
+        $mod = "./mod.json"
+        $modJson = Get-Content $mod -Raw | ConvertFrom-Json
+        $qmodname = $modJson.id + "-v" + $modJson.version + ".qmod"
+        echo "::set-output name=NAME::$qmodname"
+
+
+    #uploads the normal .so binary as artifact
+    - name: Upload Release Lib Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ParticleTuner.${{ matrix.target }}
-        path: |
-          *.qmod
+        name: ${{ steps.libname.outputs.NAME }}
+        path: ./libs/arm64-v8a/${{ steps.libname.outputs.NAME }}
+        # if not found error obviously
+        if-no-files-found: error
+
+
+    #uploads the debug .so binary as artifact
+    - name: Upload Debug Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: debug_${{ steps.libname.outputs.NAME }}
+        path: ./obj/local/arm64-v8a/${{ steps.libname.outputs.NAME }}
+        # if not found error obviously
+        if-no-files-found: error
+
+
+    # uploads the qmod package as artifact
+    - name: Upload qmod artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ steps.qmodname.outputs.NAME }}
+        path: ./${{ steps.qmodname.outputs.NAME }}
+        # if not found error obviously
         if-no-files-found: error
