@@ -2,13 +2,22 @@
   "sharedDir": "shared",
   "dependenciesDir": "extern",
   "info": {
-    "name": "particletuner",
+    "name": "ParticleTuner",
     "id": "ParticleTuner",
-    "version": "1.3.2-unofficial",
+    "version": "1.17.1",
     "url": "https://github.com/SuperMarcus/QuestParticleTuner",
     "additionalData": {}
   },
   "dependencies": [
+    {
+      "id": "beatsaber-hook",
+      "versionRange": "2.3.2",
+      "additionalData": {
+        "extraFiles": [
+          "src/inline-hook"
+        ]
+      }
+    },
     {
       "id": "codegen",
       "versionRange": "0.14.0",
@@ -23,15 +32,6 @@
       "id": "questui",
       "versionRange": "0.11.1",
       "additionalData": {}
-    },
-    {
-      "id": "beatsaber-hook",
-      "versionRange": "2.3.2",
-      "additionalData": {
-        "extraFiles": [
-          "src/inline-hook"
-        ]
-      }
     },
     {
       "id": "libil2cpp",

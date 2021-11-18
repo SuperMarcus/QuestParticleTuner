@@ -15,6 +15,8 @@ zip -j "$PKG_NAME" mod.json cover.gif
 
 find ./libs/arm64-v8a \
   ! -name 'libmodloader.so' \
-  ! -name 'libcodegen_*.so' \
+  ! -name 'libcodegen*.so' \
+  ! -name 'libcustom-types.so' \
+  ! -name 'questui.so' \
   ! -name 'gdb*' \
   -type f -exec zip -j "$PKG_NAME" {} +

@@ -1,13 +1,13 @@
 {
   "_QPVersion": "0.1.1",
-  "name": "Particle Tuner",
-  "author": "Marcus Zhou, ported by Mioki",
+  "name": "ParticleTuner",
+  "author": "Marcus Zhou, Mioki",
   "packageId": "com.beatgames.beatsaber",
   "packageVersion": "1.17.1",
   "id": "ParticleTuner",
-  "version": "1.3.2-unofficial",
+  "version": "1.17.1-211117",
   "coverImage": "cover.gif",
-  "description": "An unofficial port of Marcus Zhou's Particle Tuner for BSQ 1.16.4 now in BSQ 1.17.1.",
+  "description": "A partial port of the Particle Overdrive mod from PC with colorful sparckles and custom parameters including ambiend dust.",
   "dependencies": [],
   "modFiles": [
     "libparticletuner.so"
